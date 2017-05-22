@@ -20,11 +20,15 @@ $listar = new Mantenimiento();
         <!-- /Encabezado -->
         
         <div class="container">
-            <!-- Nuevo -->
             <div class="text-right">
+               <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
+                <!-- /Nuevo -->
+                
+                <!-- Reporte -->
+                <a id="reporte" class="btn btn-primary btn-lg" onclick="reporteMantenimiento()"><span class="glyphicon glyphicon-print"></span> Generar Reporte</a>
+                <!-- /Reporte -->
             </div>
-            <!-- /Nuevo -->
             
             <!-- Tabla clientes -->
             <div class="table-responsive">

@@ -27,7 +27,7 @@
                         <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
                         <select class="form-control" name="privilegio" data-toggle="tooltip" data-placement="right" title="Privilegio">
                             <option value="seleccione">Seleccione</option>
-                            <option value="operador">Operador</option>
+                            <option value="OPERADOR">Operador</option>
                         </select>
                     </div>
                     <!-- *************************** -->

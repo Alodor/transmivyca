@@ -20,13 +20,17 @@ $listar = new Destino();
         <!-- /Encabezado -->
         
         <div class="container">
-            <!-- Nuevo -->
             <div class="text-right">
+               <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
+                <!-- /Nuevo -->
+                
+                <!-- Reporte -->
+                <a id="reporte" class="btn btn-primary btn-lg" onclick="reporteDestino()"><span class="glyphicon glyphicon-print"></span> Generar Reporte</a>
+                <!-- /Reporte -->
             </div>
-            <!-- /Nuevo -->
             
-            <!-- Tabla clientes -->
+            <!-- Tabla destinos -->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -47,11 +51,11 @@ $listar = new Destino();
                             <td><?php echo $valor['destino']; ?></td>
                             <td><?php echo $valor['distancia']; ?></td>
                             <td>
-                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_destino']; ?>)">
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerDestino(<?php echo $valor['id_destino']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                                 
-                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarCliente(<?php echo $valor['id_destino']; ?>)">
+                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarDestino(<?php echo $valor['id_destino']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
@@ -62,7 +66,7 @@ $listar = new Destino();
                     </tbody>
                 </table>
             </div>
-            <!-- /Tabla clientes -->
+            <!-- /Tabla destinos -->
             
             <!-- Modal nuevo -->
             <div id="nuevo" class="modal fade" role="dialog">
@@ -75,24 +79,15 @@ $listar = new Destino();
                         </div>
                         <div class="modal-body">
                             <!-- Formulario -->
-                            <form id="nuevo-cliente">
+                            <form id="nuevo-destino">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                                    <input type="text" class="form-control" name="destino" placeholder="Destino" required>
+                                    <input type="text" class="form-control" name="destino" placeholder="Destino" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
-                                    <input type="text" class="form-control" name="distancia" placeholder="Distancia" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-piggy-bank"></i></span>
-                                    <select class="form-control" name="viaticos" data-toggle="tooltip" data-placement="right" title="Viáticos">
-                                        <option value="seleccione">Seleccione</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
+                                    <input type="text" class="form-control" name="distancia" placeholder="Distancia" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -113,7 +108,7 @@ $listar = new Destino();
             <!-- /Modal nuevo -->
             
             <!-- Modal editar -->
-            <div id="nuevo" class="modal fade" role="dialog">
+            <div id="editarDestino" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -123,26 +118,17 @@ $listar = new Destino();
                         </div>
                         <div class="modal-body">
                             <!-- Formulario -->
-                            <form id="nuevo-cliente">
+                            <form id="editar-destino">
                                 <div class="form-group input-group">
                                     <input id="id_destino" name="id_destino" type="hidden">
                                     
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                                    <input id="destino" type="text" class="form-control" name="destino" placeholder="Destino" required>
+                                    <input id="destino" type="text" class="form-control" name="destino" placeholder="Destino" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
-                                    <input id="distancia" type="text" class="form-control" name="distancia" placeholder="Distancia" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-piggy-bank"></i></span>
-                                    <select class="form-control" name="viaticos" data-toggle="tooltip" data-placement="right" title="Viáticos">
-                                        <option value="seleccione">Seleccione</option>
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
+                                    <input id="distancia" type="text" class="form-control" name="distancia" placeholder="Distancia" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

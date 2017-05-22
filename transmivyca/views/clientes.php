@@ -19,12 +19,16 @@ $listar = new Cliente();
         <h1 class="titulo text-center">Clientes</h1>
         <!-- /Encabezado -->
         
-        <div class="container">
-            <!-- Nuevo -->
+        <div class="container">            
             <div class="text-right">
+               <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
-            </div>
-            <!-- /Nuevo -->
+                <!-- /Nuevo -->
+                
+                <!-- Reporte -->
+                <a id="reporte" class="btn btn-primary btn-lg" onclick="reporteCliente()"><span class="glyphicon glyphicon-print"></span> Generar Reporte</a>
+                <!-- /Reporte -->
+            </div>            
             
             <!-- Tabla clientes -->
             <div class="table-responsive">
@@ -41,16 +45,16 @@ $listar = new Cliente();
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <?php                        
+                        <?php      
                         $data = $listar->Listar();
                         foreach ($data as $key => $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_cliente']; ?></td>
-                            <td><?php echo $valor['rif']; ?></td>
-                            <td><?php echo $valor['razon_social']; ?></td>
-                            <td><?php echo $valor['direccion']; ?></td>
-                            <td><?php echo $valor['telefono']; ?></td>
-                            <td><?php echo $valor['responsable']; ?></td>
+                            <td class="rif"><?php echo $valor['rif']; ?></td>
+                            <td class="razon_social"><?php echo $valor['razon_social']; ?></td>
+                            <td class="direccion"><?php echo $valor['direccion']; ?></td>
+                            <td class="telefono"><?php echo $valor['telefono']; ?></td>
+                            <td class="responsable"><?php echo $valor['responsable']; ?></td>
                             <td>
                                 <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_cliente']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
@@ -83,27 +87,27 @@ $listar = new Cliente();
                             <form id="nuevo-cliente">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input type="text" class="form-control" name="rif" placeholder="Rif: J-404271864" maxlength="11" required>
+                                    <input type="text" class="form-control" name="rif" placeholder="Rif: J-404271864" maxlength="11" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <input type="text" class="form-control" name="razon_social" placeholder="Razón Social" required>
+                                    <input type="text" class="form-control" name="razon_social" placeholder="Razón Social" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" required>
+                                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" class="form-control" name="responsable" placeholder="Responsable" required>
+                                    <input type="text" class="form-control" name="responsable" placeholder="Responsable" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -139,27 +143,27 @@ $listar = new Cliente();
                                     <input id="id_cliente" name="id_cliente" type="hidden">
                                     
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input id="rif" type="text" class="form-control" name="rif" maxlength="11" placeholder="Rif: J-404271864" required>
+                                    <input id="rif" type="text" class="form-control" name="rif" maxlength="11" placeholder="Rif: J-404271864" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <input id="razon_social" type="text" class="form-control" name="razon_social" placeholder="Razón Social" required>
+                                    <input id="razon_social" type="text" class="form-control" name="razon_social" placeholder="Razón Social" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                    <input id="direccion" type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                                    <input id="direccion" type="text" class="form-control" name="direccion" placeholder="Dirección" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input id="telefono" type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" required>
+                                    <input id="telefono" type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="responsable" type="text" class="form-control" name="responsable" placeholder="Responsable" required>
+                                    <input id="responsable" type="text" class="form-control" name="responsable" placeholder="Responsable" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

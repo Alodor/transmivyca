@@ -20,13 +20,17 @@ $listar = new Viaticos();
         <!-- /Encabezado -->
         
         <div class="container">
-            <!-- Nuevo -->
             <div class="text-right">
+               <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
+                <!-- /Nuevo -->
+                
+                <!-- Reporte -->
+                <a id="reporte" class="btn btn-primary btn-lg" onclick="reporteViatico()"><span class="glyphicon glyphicon-print"></span> Generar Reporte</a>
+                <!-- /Reporte -->
             </div>
-            <!-- /Nuevo -->
             
-            <!-- Tabla clientes -->
+            <!-- Tabla viaticos -->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -52,11 +56,11 @@ $listar = new Viaticos();
                             <td><?php echo $valor['otros']; ?></td>
                             <td><?php echo $valor['total']; ?></td>
                             <td>
-                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_viaticos']; ?>)">
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerViatico(<?php echo $valor['id_viaticos']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                                 
-                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarCliente(<?php echo $valor['id_viaticos']; ?>)">
+                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarViatico(<?php echo $valor['id_viaticos']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
@@ -80,25 +84,25 @@ $listar = new Viaticos();
                         </div>
                         <div class="modal-body">
                             <!-- Formulario -->
-                            <form id="nuevo-cliente">
+                            <form id="nuevo-viatico">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input type="text" class="form-control" name="peaje" placeholder="Peaje" required>
+                                    <input type="text" class="form-control" name="peaje" placeholder="Peaje" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-cutlery"></i></span>
-                                    <input type="text" class="form-control" name="comida" placeholder="Comida" required>
+                                    <input type="text" class="form-control" name="comida" placeholder="Comida" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-oil"></i></span>
-                                    <input type="text" class="form-control" name="combustible" placeholder="Combustible" required>
+                                    <input type="text" class="form-control" name="combustible" placeholder="Combustible" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
-                                    <input type="text" class="form-control" name="otros" placeholder="Otros" required>
+                                    <input type="text" class="form-control" name="otros" placeholder="Otros" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -119,7 +123,7 @@ $listar = new Viaticos();
             <!-- /Modal nuevo -->
             
             <!-- Modal editar -->
-            <div id="nuevo" class="modal fade" role="dialog">
+            <div id="editarViatico" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -129,27 +133,27 @@ $listar = new Viaticos();
                         </div>
                         <div class="modal-body">
                             <!-- Formulario -->
-                            <form id="nuevo-cliente">
+                            <form id="editar-viatico">
                                 <div class="form-group input-group">
                                     <input id="id_viaticos" name="id_viaticos" type="hidden">
                                     
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
-                                    <input id="peaje" type="text" class="form-control" name="peaje" placeholder="Peaje" required>
+                                    <input id="peaje" type="text" class="form-control" name="peaje" placeholder="Peaje" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-cutlery"></i></span>
-                                    <input id="comida" type="text" class="form-control" name="comida" placeholder="Comida" required>
+                                    <input id="comida" type="text" class="form-control" name="comida" placeholder="Comida" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-oil"></i></span>
-                                    <input id="combustible" type="text" class="form-control" name="combustible" placeholder="Combustible" required>
+                                    <input id="combustible" type="text" class="form-control" name="combustible" placeholder="Combustible" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
-                                    <input id="otros" type="text" class="form-control" name="otros" placeholder="Otros" required>
+                                    <input id="otros" type="text" class="form-control" name="otros" placeholder="Otros" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

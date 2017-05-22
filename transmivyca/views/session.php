@@ -8,4 +8,3 @@ $session = new Usuario();
 if (!$session->Loggedin()) {
     header('location: /transmivyca');
 }
-?>

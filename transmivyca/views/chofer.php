@@ -20,13 +20,17 @@ $listar = new Chofer();
         <!-- /Encabezado -->
         
         <div class="container">
-            <!-- Nuevo -->
             <div class="text-right">
+               <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
+                <!-- /Nuevo -->
+                
+                <!-- Reporte -->
+                <a id="reporte" class="btn btn-primary btn-lg" onclick="reporteChofer()"><span class="glyphicon glyphicon-print"></span> Generar Reporte</a>
+                <!-- /Reporte -->
             </div>
-            <!-- /Nuevo -->
             
-            <!-- Tabla clientes -->
+            <!-- Tabla chofer -->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -56,11 +60,11 @@ $listar = new Chofer();
                             <td><?php echo $valor['fecha_ingreso']; ?></td>
                             <td><?php echo $valor['estatus']; ?></td>
                             <td>
-                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_chofer']; ?>)">
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerChofer(<?php echo $valor['id_chofer']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                                 
-                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarCliente(<?php echo $valor['id_chofer']; ?>)">
+                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarChofer(<?php echo $valor['id_chofer']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
                             </td>
@@ -71,7 +75,7 @@ $listar = new Chofer();
                     </tbody>
                 </table>
             </div>
-            <!-- /Tabla clientes -->
+            <!-- /Tabla chofer -->
             
             <!-- Modal nuevo -->
             <div id="nuevo" class="modal fade" role="dialog">
@@ -87,35 +91,35 @@ $listar = new Chofer();
                             <form id="nuevo-chofer">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input type="text" class="form-control" name="cedula" placeholder="Cédula: 19316181" maxlength="8" required>
+                                    <input type="text" class="form-control" name="cedula" placeholder="Cédula: 19316181" maxlength="8" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+                                    <input type="text" class="form-control" name="nombre" placeholder="Nombre" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input type="text" class="form-control" name="apellido" placeholder="Apellido" required>
+                                    <input type="text" class="form-control" name="apellido" placeholder="Apellido" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                                    <input type="text" class="form-control" name="direccion" placeholder="Dirección" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" required>
+                                    <input type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
                                     <select class="form-control" name="estatus">
                                         <option value="seleccione">Seleccione</option>
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo" disabled>Inactivo</option>
+                                        <option value="ACTIVO">Activo</option>
+                                        <option value="INACTIVO" disabled>Inactivo</option>
                                     </select>
                                 </div>
                                 <!-- ****************************** -->
@@ -137,7 +141,7 @@ $listar = new Chofer();
             <!-- /Modal nuevo -->
             
             <!-- Modal editar -->
-            <div id="nuevo" class="modal fade" role="dialog">
+            <div id="editarChofer" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
@@ -152,45 +156,35 @@ $listar = new Chofer();
                                     <input id="id_chofer" name="id_chofer" type="hidden">
                                     
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input id="cedula" type="text" class="form-control" name="cedula" placeholder="Cédula: 19316181" maxlength="8" required>
+                                    <input id="cedula" type="text" class="form-control" name="cedula" placeholder="Cédula: 19316181" maxlength="8" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre" required>
+                                    <input id="nombre" type="text" class="form-control" name="nombre" placeholder="Nombre" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <input id="apellido" type="text" class="form-control" name="apellido" placeholder="Apellido" required>
+                                    <input id="apellido" type="text" class="form-control" name="apellido" placeholder="Apellido" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-map-marker"></i></span>
-                                    <input id="direccion" type="text" class="form-control" name="direccion" placeholder="Dirección" required>
+                                    <input id="direccion" type="text" class="form-control" name="direccion" placeholder="Dirección" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                    <input id="telefono" type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fecha_ingreso" type="date" class="form-control" name="fecha_ingreso" data-toggle="tooltip" data-placement="right" title="Fecha Ingreso">
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fecha_egreso" type="date" class="form-control" name="fecha_egreso" disabled>
+                                    <input id="telefono" type="text" class="form-control" name="telefono" placeholder="Teléfono" maxlength="11" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
                                     <select class="form-control" name="estatus">
                                         <option value="seleccione">Seleccione</option>
-                                        <option value="activo">Activo</option>
-                                        <option value="inactivo" disabled>Inactivo</option>
+                                        <option value="ACTIVO" disabled>Activo</option>
+                                        <option value="INACTIVO">Inactivo</option>
                                     </select>
                                 </div>
                                 <!-- ****************************** -->

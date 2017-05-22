@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 18-05-2017 a las 00:34:48
+-- Tiempo de generación: 21-05-2017 a las 22:41:49
 -- Versión del servidor: 5.7.17-0ubuntu0.16.04.2
 -- Versión de PHP: 7.0.15-0ubuntu0.16.04.4
 
@@ -33,12 +33,16 @@ CREATE TABLE `chofer` (
   `apellido` varchar(45) NOT NULL,
   `direccion` varchar(200) NOT NULL,
   `telefono` varchar(11) NOT NULL,
-  `fecha_ingreso` date NOT NULL,
-  `fecha_egreso` date DEFAULT NULL,
-  `estatus` varchar(45) NOT NULL,
-  `chuto_id_chuto` int(11) NOT NULL,
-  `destino_id_destino` int(11) NOT NULL
+  `fecha_ingreso` varchar(10) NOT NULL,
+  `estatus` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `chofer`
+--
+
+INSERT INTO `chofer` (`id_chofer`, `cedula`, `nombre`, `apellido`, `direccion`, `telefono`, `fecha_ingreso`, `estatus`) VALUES
+(2, '19316181', 'JOSE ALEJANDRO', 'MENDEZ SANCHEZ', 'BARCELONA', '02812710887', '21-05-2017', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -52,12 +56,17 @@ CREATE TABLE `chuto` (
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
   `color` varchar(45) NOT NULL,
-  `traccion` varchar(5) NOT NULL,
   `annio` varchar(4) NOT NULL,
   `serial_motor` varchar(45) NOT NULL,
-  `serial_carroceria` varchar(45) NOT NULL,
-  `mantenimiento_chuto_id_mantenimiento` int(11) NOT NULL
+  `serial_carroceria` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `chuto`
+--
+
+INSERT INTO `chuto` (`id_chuto`, `matricula`, `marca`, `modelo`, `color`, `annio`, `serial_motor`, `serial_carroceria`) VALUES
+(2, 'MBO-785', 'INTERNATIONAL', 'TRANSTAR', 'NEGRO', '2015', 'A1B2C3D4E5', 'E1R2Y3U4J5');
 
 -- --------------------------------------------------------
 
@@ -74,6 +83,13 @@ CREATE TABLE `cliente` (
   `responsable` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Volcado de datos para la tabla `cliente`
+--
+
+INSERT INTO `cliente` (`id_cliente`, `rif`, `razon_social`, `direccion`, `telefono`, `responsable`) VALUES
+(4, 'J-458799214', 'SERVICE COMPUTEP', 'VIGIA', '02812710888', 'JOSE ALEJANDRO SANCHEZ MENDEZ');
+
 -- --------------------------------------------------------
 
 --
@@ -83,9 +99,15 @@ CREATE TABLE `cliente` (
 CREATE TABLE `destino` (
   `id_destino` int(11) NOT NULL,
   `destino` varchar(45) NOT NULL,
-  `distancia` varchar(10) NOT NULL,
-  `viaticos_id_viaticos` int(11) NOT NULL
+  `distancia` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Volcado de datos para la tabla `destino`
+--
+
+INSERT INTO `destino` (`id_destino`, `destino`, `distancia`) VALUES
+(2, 'CARACAS', '300');
 
 -- --------------------------------------------------------
 
@@ -139,6 +161,13 @@ CREATE TABLE `viaticos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Volcado de datos para la tabla `viaticos`
+--
+
+INSERT INTO `viaticos` (`id_viaticos`, `peaje`, `comida`, `combustible`, `otros`, `total`) VALUES
+(3, 2000, 15000, 3000, 5000, 25000);
+
+--
 -- Índices para tablas volcadas
 --
 
@@ -146,16 +175,13 @@ CREATE TABLE `viaticos` (
 -- Indices de la tabla `chofer`
 --
 ALTER TABLE `chofer`
-  ADD PRIMARY KEY (`id_chofer`),
-  ADD KEY `fk_chofer_chuto_idx` (`chuto_id_chuto`),
-  ADD KEY `fk_chofer_destino1_idx` (`destino_id_destino`);
+  ADD PRIMARY KEY (`id_chofer`);
 
 --
 -- Indices de la tabla `chuto`
 --
 ALTER TABLE `chuto`
-  ADD PRIMARY KEY (`id_chuto`),
-  ADD KEY `fk_chuto_mantenimiento_chuto1_idx` (`mantenimiento_chuto_id_mantenimiento`);
+  ADD PRIMARY KEY (`id_chuto`);
 
 --
 -- Indices de la tabla `cliente`
@@ -167,8 +193,7 @@ ALTER TABLE `cliente`
 -- Indices de la tabla `destino`
 --
 ALTER TABLE `destino`
-  ADD PRIMARY KEY (`id_destino`),
-  ADD KEY `fk_destino_viaticos1_idx` (`viaticos_id_viaticos`);
+  ADD PRIMARY KEY (`id_destino`);
 
 --
 -- Indices de la tabla `mantenimiento_chuto`
@@ -196,22 +221,22 @@ ALTER TABLE `viaticos`
 -- AUTO_INCREMENT de la tabla `chofer`
 --
 ALTER TABLE `chofer`
-  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `chuto`
 --
 ALTER TABLE `chuto`
-  MODIFY `id_chuto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_chuto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `destino`
 --
 ALTER TABLE `destino`
-  MODIFY `id_destino` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_destino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT de la tabla `mantenimiento_chuto`
 --
@@ -226,30 +251,7 @@ ALTER TABLE `usuario_sistema`
 -- AUTO_INCREMENT de la tabla `viaticos`
 --
 ALTER TABLE `viaticos`
-  MODIFY `id_viaticos` int(11) NOT NULL AUTO_INCREMENT;
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `chofer`
---
-ALTER TABLE `chofer`
-  ADD CONSTRAINT `fk_chofer_chuto` FOREIGN KEY (`chuto_id_chuto`) REFERENCES `chuto` (`id_chuto`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `fk_chofer_destino1` FOREIGN KEY (`destino_id_destino`) REFERENCES `destino` (`id_destino`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
--- Filtros para la tabla `chuto`
---
-ALTER TABLE `chuto`
-  ADD CONSTRAINT `fk_chuto_mantenimiento_chuto1` FOREIGN KEY (`mantenimiento_chuto_id_mantenimiento`) REFERENCES `mantenimiento_chuto` (`id_mantenimiento`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `destino`
---
-ALTER TABLE `destino`
-  ADD CONSTRAINT `fk_destino_viaticos1` FOREIGN KEY (`viaticos_id_viaticos`) REFERENCES `viaticos` (`id_viaticos`) ON DELETE CASCADE ON UPDATE CASCADE;
-
+  MODIFY `id_viaticos` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

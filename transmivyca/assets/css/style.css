@@ -114,8 +114,8 @@ main {
 }
 /* /Tabla */
 
-/* Panel respuesta */
-.panel-danger {
+/* Alert respuesta */
+.alert-danger {
     margin-top: 20px;
     background-color: #ff0000;
     border: 1px solid #ff0000;
@@ -123,14 +123,14 @@ main {
     box-shadow: 0 5px 15px 0 rgba(0,0,0,.2);
 }
 
-.panel-success {
+.alert-success {
     margin-top: 20px;
     background-color: #01df01;
     border: 1px solid #01df01;
     color: #fff;
     box-shadow: 0 5px 15px 0 rgba(0,0,0,.2);
 }
-/* /Panel respuesta */
+/* /Alert respuesta */
 
 /* Botones */
 .btn {
