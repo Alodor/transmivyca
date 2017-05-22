@@ -21,7 +21,7 @@ class Chofer {
             $sql = "SELECT * FROM chofer ORDER BY id_chofer DESC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
-            $data = $stm->fetchAll();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
                         
         } catch(PDOException $e) {
@@ -79,19 +79,21 @@ class Chofer {
     }
     
     // Realiza una actualizacion del registro seleccionado
-    public function Actualizar($nombre, $apellido, $direccion, $telefono, $estatus, $id) {
+    public function Actualizar($cedula, $nombre, $apellido, $direccion, $telefono, $estatus, $id) {
         
         try {
             
             $sql = "UPDATE chofer SET
+                                cedula = ?, 
                                 nombre = ?, 
                                 apellido = ?, 
                                 direccion = ?, 
                                 telefono = ?,
                                 estatus = ?
-                                WHERE id_cliente = ?";
+                                WHERE id_chofer = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array(                        
+                        $cedula,
                         $nombre,
                         $apellido,                        
                         $direccion,                        

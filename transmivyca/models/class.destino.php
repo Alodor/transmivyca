@@ -21,7 +21,7 @@ class Destino {
             $sql = "SELECT * FROM destino ORDER BY id_destino DESC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
-            $data = $stm->fetchAll();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
                         
         } catch(PDOException $e) {

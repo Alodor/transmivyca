@@ -21,7 +21,7 @@ class Viaticos {
             $sql = "SELECT * FROM viaticos ORDER BY id_viaticos DESC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
-            $data = $stm->fetchAll();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
                         
         } catch(PDOException $e) {

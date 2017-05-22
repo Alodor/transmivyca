@@ -21,7 +21,7 @@ class Chuto {
             $sql = "SELECT * FROM chuto ORDER BY id_chuto DESC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
-            $data = $stm->fetchAll();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
                         
         } catch(PDOException $e) {
@@ -48,7 +48,7 @@ class Chuto {
     }
     
     // Crea un nuevo registro
-    public function Crear($matricula, $marca, $modelo, $color, $traccion, $annio, $serial_motor, $serial_carroceria) {
+    public function Crear($matricula, $marca, $modelo, $color, $annio, $serial_motor, $serial_carroceria) {
         
         try {
             
@@ -56,18 +56,16 @@ class Chuto {
                                     matricula, 
                                     marca, 
                                     modelo, 
-                                    color, 
-                                    traccion, 
+                                    color,
                                     annio, 
                                     serial_motor, 
-                                    serial_carroceria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                                    serial_carroceria) VALUES (?, ?, ?, ?, ?, ?, ?)";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array(
                         $matricula,
                         $marca,
                         $modelo,                        
                         $color,
-                        $traccion,
                         $annio,
                         $serial_motor,
                         $serial_carroceria
@@ -81,28 +79,16 @@ class Chuto {
     }
     
     // Realiza una actualizacion del registro seleccionado
-    public function Actualizar($matricula, $marca, $modelo, $color, $traccion, $annio, $serial_motor, $serial_carroceria, $id) {
+    public function Actualizar($serial_motor, $serial_carroceria, $id) {
         
         try {
             
-            $sql = "UPDATE chuto SET 
-                                matricula = ?, 
-                                marca = ?, 
-                                modelo = ?, 
-                                color = ?, 
-                                traccion = ?, 
-                                annio = ?, 
+            $sql = "UPDATE chuto SET
                                 serial_motor = ?, 
                                 serial_carroceria = ?
                                 WHERE id_chuto = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array(
-                        $matricula,
-                        $marca,
-                        $modelo,                        
-                        $color,
-                        $traccion,
-                        $annio,
+            $stm->execute(array(                        
                         $serial_motor,
                         $serial_carroceria,
                         $id

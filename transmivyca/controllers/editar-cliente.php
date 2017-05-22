@@ -15,8 +15,9 @@ $responsable = htmlspecialchars($_POST['responsable']);
 // Validacion de variables
 if (($id == "") || ($rif == "") || ($razon_social == "") || ($direccion == "") || ($telefono == "") || ($responsable == "")) {    
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>No se puede actualizar registro</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>No se puede actualizar registro</div>
     </div>";
 
 // Ejecuta el metodo actualizar
@@ -40,7 +41,8 @@ if (($id == "") || ($rif == "") || ($razon_social == "") || ($direccion == "") |
 
 } else {
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>No se puede actualizar registro</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>No se puede actualizar registro</div>
     </div>";
 }

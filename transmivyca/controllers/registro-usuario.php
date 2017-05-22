@@ -12,20 +12,23 @@ $privilegio = htmlspecialchars($_POST['privilegio']);
 // Validacion de variables
 if (($user == "") || ($password == "") || ($privilegio == "") || ($privilegio == "seleccione")) {    
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>Usuario no puede ser registrado</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Usuario no puede ser registrado</div>
     </div>";
 
 // Ejecuta el metodo registrar
 } elseif ($registrar->Registrar($user, $password, $privilegio)) {
     echo "
-    <div class='panel panel-success'>
-        <div class='panel-body text-center'>Usuario registrado satisfactoriamente</div>
+    <div class='alert alert-success alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Usuario registrado satisfactoriamente</div>
     </div>";
 
 } else {
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>Usuario no puede ser registrado</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Usuario no puede ser registrado</div>
     </div>";
 }

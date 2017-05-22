@@ -14,8 +14,9 @@ $responsable = htmlspecialchars($_POST['responsable']);
 // Validacion de variables
 if (($rif == "") || ($razon_social == "") || ($direccion == "") || ($telefono == "") || ($responsable == "")) {    
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>Cliente no puede ser registrado</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Cliente no puede ser registrado</div>
     </div>";
 
 // Ejecuta el metodo registrar
@@ -39,7 +40,8 @@ if (($rif == "") || ($razon_social == "") || ($direccion == "") || ($telefono ==
 
 } else {
     echo "
-    <div class='panel panel-danger'>
-        <div class='panel-body text-center'>Cliente no puede ser registrado</div>
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Cliente no puede ser registrado</div>
     </div>";
 }

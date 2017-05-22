@@ -18,10 +18,10 @@ class Cliente {
         
         try {
             
-            $sql = "SELECT * FROM cliente ORDER BY id_cliente DESC";
+            $sql = "SELECT * FROM cliente ORDER BY id_cliente DESC";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
-            $data = $stm->fetchAll();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
                         
         } catch(PDOException $e) {
