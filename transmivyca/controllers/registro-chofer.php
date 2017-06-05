@@ -9,12 +9,13 @@ $nombre = htmlspecialchars($_POST['nombre']);
 $apellido = htmlspecialchars($_POST['apellido']);
 $direccion = htmlspecialchars($_POST['direccion']);
 $telefono = htmlspecialchars($_POST['telefono']);
+$fv_licencia = $_POST['fv_licencia'];
+$fv_certificado = $_POST['fv_certificado'];
 $fecha_ingreso = date("d-m-Y");
-$estatus = htmlspecialchars($_POST['estatus']);
 
 
 // Validacion de variables
-if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "") || ($estatus == "") || ($estatus == "seleccione")) {    
+if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "") || ($estatus == "")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -22,7 +23,7 @@ if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == ""
     </div>";
 
 // Ejecuta el metodo registrar
-} elseif ($crear->Crear($cedula, $nombre, $apellido, $direccion, $telefono, $fecha_ingreso, $estatus)) {
+} elseif ($crear->Crear($cedula, $nombre, $apellido, $direccion, $telefono, $fv_licencia, $fv_certificado, $fecha_ingreso)) {
     echo "
     <script>
         swal({
@@ -44,6 +45,6 @@ if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == ""
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Chofer no puede ser registrado</div>
+        <div class='alert-body text-center'>Chofer ya se encuentra registrado</div>
     </div>";
 }

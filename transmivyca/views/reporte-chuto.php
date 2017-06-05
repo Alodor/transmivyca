@@ -33,7 +33,7 @@ foreach ($data as $key => $valor) {
     
     $pdf->SetTextColor(3, 3, 3);
     $pdf->Cell(15,10,$valor['id_chuto'],1,0,'C');
-    $pdf->Cell(30,10,$valor['matricula'],1,0,'C');
+    $pdf->Cell(30,10,$valor['matricula_chuto'],1,0,'C');
     $pdf->Cell(40,10,utf8_decode($valor['marca']),1,0,'C');
     $pdf->Cell(40,10,utf8_decode($valor['modelo']),1,0,'C');
     $pdf->Cell(40,10,utf8_decode($valor['color']),1,0,'C');

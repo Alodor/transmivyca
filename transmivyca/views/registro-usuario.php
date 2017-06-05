@@ -1,4 +1,12 @@
-<?php include 'session.php'; ?>
+<?php
+
+include 'session.php'; 
+
+if ($_SESSION['privilegio'] == "OPERADOR") {
+    
+    header('location: administrator.php');
+}
+?>
 <!Doctype html>
 <html lang="es">
     <?php include '../assets/head.php'; ?>

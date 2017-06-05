@@ -13,6 +13,10 @@ if (isset($id)) {
         'id_destino' => $data['id_destino'],
         'destino' => $data['destino'],
         'distancia' => $data['distancia'],
+        'peaje' => $data['peaje'],
+        'comida' => $data['comida'],
+        'combustible' => $data['combustible'],
+        'otros' => $data['otros'],
     ];
     echo json_encode($response);
     

@@ -1,21 +1,16 @@
 <?php
-require_once '../models/class.destino.php';
+require_once '../models/class.batea.php';
 
-$editar = new Destino();
+$editar = new Batea();
 
 // Saneamiento de variables
-$id = htmlspecialchars($_POST['id_destino']);
-$destino = htmlspecialchars($_POST['destino']);
-$distancia = htmlspecialchars($_POST['distancia']);
-$peaje = (double) htmlspecialchars($_POST['peaje']);
-$comida = (double) htmlspecialchars($_POST['comida']);
-$combustible = (double) htmlspecialchars($_POST['combustible']);
-$otros = (double) htmlspecialchars($_POST['otros']);
-$total = ($peaje + $comida + $combustible + $otros);
+$id = htmlspecialchars($_POST['id_batea']);
+$matricula = htmlspecialchars($_POST['matricula']);
+$serial = htmlspecialchars($_POST['serial']);
 
 
 // Validacion de variables
-if (($destino == "") || ($distancia == "") || ($peaje == "") || ($comida == "") || ($combustible == "") || ($otros == "")) {    
+if (($id == "") || ($matricula == "") || ($serial == "")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -23,11 +18,11 @@ if (($destino == "") || ($distancia == "") || ($peaje == "") || ($comida == "") 
     </div>";
 
 // Ejecuta el metodo actualizar
-} elseif ($editar->Actualizar($destino, $distancia, $peaje, $comida, $combustible, $otros, $total, $id)) {
+} elseif ($editar->Actualizar($matricula, $serial, $id)) {
     echo "
     <script>
         swal({
-        title: 'Actualizar Destino',
+        title: 'Actualizar Batea',
         text: 'Editado satisfactoriamente',
         type: 'success',
         showCancelButton: false,
@@ -36,7 +31,7 @@ if (($destino == "") || ($distancia == "") || ($peaje == "") || ($comida == "") 
         },
         
         function() {
-            location.href = '/transmivyca/views/destinos.php';
+            location.href = '/transmivyca/views/bateas.php';
         });
     </script>";
     

@@ -1,6 +1,6 @@
 $(document).ready(function() {
     // Tooltip
-    $('[data-toggle="tooltip"]').tooltip(); 
+    $('[data-toggle="tooltip"]').tooltip();    
 });
 
 
@@ -8,7 +8,7 @@ $(document).ready(function() {
 function reporteCliente() {
     var obj = document.getElementById('reporte');
     var url = '/transmivyca/views/reporte-cliente.php';
-    
+
     obj.target = '_blank';        
     obj.href = url; 
 }
@@ -18,7 +18,17 @@ function reporteCliente() {
 function reporteChofer() {
     var obj = document.getElementById('reporte');
     var url = '/transmivyca/views/reporte-chofer.php';
-    
+
+    obj.target = '_blank';        
+    obj.href = url; 
+}
+
+
+// Reporte asignacion de chuto
+function reporteAsignacion() {
+    var obj = document.getElementById('reporte');
+    var url = '/transmivyca/views/reporte-asignacion.php';
+
     obj.target = '_blank';        
     obj.href = url; 
 }
@@ -28,7 +38,17 @@ function reporteChofer() {
 function reporteChuto() {
     var obj = document.getElementById('reporte');
     var url = '/transmivyca/views/reporte-chuto.php';
-    
+
+    obj.target = '_blank';        
+    obj.href = url; 
+}
+
+
+// Reporte batea
+function reporteBatea() {
+    var obj = document.getElementById('reporte');
+    var url = '/transmivyca/views/reporte-batea.php';
+
     obj.target = '_blank';        
     obj.href = url; 
 }
@@ -38,17 +58,7 @@ function reporteChuto() {
 function reporteDestino() {
     var obj = document.getElementById('reporte');
     var url = '/transmivyca/views/reporte-destino.php';
-    
-    obj.target = '_blank';        
-    obj.href = url; 
-}
 
-
-// Reporte viatico
-function reporteViatico() {
-    var obj = document.getElementById('reporte');
-    var url = '/transmivyca/views/reporte-viatico.php';
-    
     obj.target = '_blank';        
     obj.href = url; 
 }
@@ -58,7 +68,17 @@ function reporteViatico() {
 function reporteMantenimiento() {
     var obj = document.getElementById('reporte');
     var url = '/transmivyca/views/reporte-mantenimiento.php';
-    
+
+    obj.target = '_blank';        
+    obj.href = url; 
+}
+
+
+// Reporte de viajes
+function reporteViaje() {
+    var obj = document.getElementById('reporte');
+    var url = '/transmivyca/views/reporte-viaje.php';
+
     obj.target = '_blank';        
     obj.href = url; 
 }
@@ -67,7 +87,7 @@ function reporteMantenimiento() {
 // Validar solo numero
 function onlyNumber(e) {
     var key = window.Event ? e.which : e.keyCode;
-	return (key >= 48 && key <= 57);
+    return (key >= 48 && key <= 57);
 }
 
 
@@ -79,7 +99,7 @@ function onlyText(e) {
     especiales = "8-37-39-46";
 
     tecla_especial = false;
-       
+
     for(var i in especiales) {
         if(key == especiales[i]) {
             tecla_especial = true;

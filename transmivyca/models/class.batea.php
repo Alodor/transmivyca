@@ -1,7 +1,7 @@
 <?php
 require_once '../config/connection.php';
 
-class Cliente {
+class Batea {
     
     private $pdo;
     
@@ -13,12 +13,12 @@ class Cliente {
 		$this->pdo = $db;        
     }
     
-    // Muestra todos los registros    
+    // Muestra todos los registros
     public function Listar() {
         
         try {
             
-            $sql = "SELECT * FROM cliente ORDER BY id_cliente ASC";            
+            $sql = "SELECT * FROM batea ORDER BY id_batea ASC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -31,11 +31,11 @@ class Cliente {
     }
     
     // Mostrar total de registros
-    public function totalCliente() {
+    public function totalBatea() {
         
         try {
             
-            $sql = "SELECT id_cliente FROM cliente";            
+            $sql = "SELECT id_batea FROM batea";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $row = $stm->rowCount();
@@ -48,11 +48,11 @@ class Cliente {
     }
     
     // Listar registros especificos
-    public function ListarCliente() {
+    public function ListarBatea() {
         
         try {
             
-            $sql = "SELECT id_cliente, razon_social FROM cliente";            
+            $sql = "SELECT id_batea, matricula_batea FROM batea";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -69,14 +69,9 @@ class Cliente {
         
         try {
             
-            $sql = "SELECT * FROM cliente WHERE 
-                    direccion LIKE '%".$valor."%' 
-                    OR rif LIKE '%".$valor."%' 
-                    OR razon_social LIKE '%".$valor."%'
-                    OR direccion LIKE '%".$valor."%'
-                    OR telefono LIKE '%".$valor."%'
-                    OR responsable LIKE '%".$valor."%'    
-                    ORDER BY id_cliente DESC";            
+            $sql = "SELECT * FROM batea WHERE 
+                    matricula_batea LIKE '%".$valor."%'    
+                    ORDER BY id_batea ASC";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -86,14 +81,14 @@ class Cliente {
             die('ERROR: ' . $e->getMessage());
         }   
         
-    }
+    }    
     
     // Obtener valor
     public function Obtener($id) {
         
         try {
             
-            $sql = "SELECT * FROM cliente WHERE id_cliente = ?";
+            $sql = "SELECT * FROM batea WHERE id_batea = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array($id));
             $data = $stm->fetch(PDO::FETCH_ASSOC);
@@ -106,36 +101,34 @@ class Cliente {
     }
     
     // Crea un nuevo registro
-    public function Crear($rif, $razon_social, $direccion, $telefono, $responsable) {
+    public function Crear($matricula, $serial, $eje, $fecha_registro) {
         
         try {
             
-            $sql = "SELECT rif FROM cliente WHERE rif = ?";
+            $sql = "SELECT matricula_batea FROM batea WHERE matricula_batea = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array($rif));
+            $stm->execute(array($matricula));
             $row = $stm->fetch(PDO::FETCH_ASSOC);
             
-            if ($row['rif'] != $rif) {
-                
-                $sql = "INSERT INTO cliente (
-                                    rif, 
-                                    razon_social, 
-                                    direccion, 
-                                    telefono, 
-                                    responsable) VALUES (?, ?, ?, ?, ?)";
+            if ($row['matricula'] != $matricula) { 
+            
+                $sql = "INSERT INTO batea (
+                                    matricula_batea, 
+                                    serial, 
+                                    eje, 
+                                    fecha_registro) VALUES (?, ?, ?, ?)";
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute(array(
-                            $rif,
-                            $razon_social,
-                            $direccion,                        
-                            $telefono,
-                            $responsable
+                            $matricula,
+                            $serial,
+                            $eje,                        
+                            $fecha_registro
                 ));
-                return true;      
-                
+                return true;    
+            
             } else {
                 return false;
-            } 
+            }
             
         } catch(PDOException $e) {
             die('ERROR: ' . $e->getMessage());
@@ -144,24 +137,18 @@ class Cliente {
     }
     
     // Realiza una actualizacion del registro seleccionado
-    public function Actualizar($rif, $razon_social, $direccion, $telefono, $responsable, $id) {
+    public function Actualizar($matricula, $serial, $id) {
         
         try {
             
-            $sql = "UPDATE cliente SET 
-                                rif = ?, 
-                                razon_social = ?, 
-                                direccion = ?, 
-                                telefono = ?, 
-                                responsable = ?
-                                WHERE id_cliente = ?";
+            $sql = "UPDATE batea SET
+                                matricula_batea = ?, 
+                                serial = ?
+                                WHERE id_batea = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array(
-                        $rif,
-                        $razon_social,
-                        $direccion,                        
-                        $telefono,
-                        $responsable,
+            $stm->execute(array(                        
+                        $matricula,
+                        $serial,
                         $id
             ));
             return true;
@@ -177,7 +164,7 @@ class Cliente {
         
         try {
             
-            $sql = "DELETE FROM cliente WHERE id_cliente = ?";
+            $sql = "DELETE FROM batea WHERE id_batea = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array($id));
             

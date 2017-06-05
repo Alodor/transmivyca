@@ -32,6 +32,31 @@ $("#registro-usuario").submit(function(e) {
 });
 
 
+// Buscador cliente
+$('#buscadorCliente').keyup(function(e) {
+    var consulta = $('#buscadorCliente').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-cliente.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
 // Nuevo cliente
 $("#nuevo-cliente").submit(function(e) {
     e.preventDefault();
@@ -122,6 +147,31 @@ function eliminarCliente(id) {
 }
 
 
+// Buscador chofer
+$('#buscadorChofer').keyup(function(e) {
+    var consulta = $('#buscadorChofer').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-chofer.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
 // Registro chofer
 $("#nuevo-chofer").submit(function(e) {
     e.preventDefault();
@@ -159,6 +209,8 @@ function obtenerChofer(id) {
             $("#apellido").val(response.apellido);
             $("#direccion").val(response.direccion);
             $("#telefono").val(response.telefono);
+            $("#fv_licencia").val(response.fv_licencia);
+            $("#fv_certificado").val(response.fv_certificado);
             // Lanza la ventana modal
             $('#editarChofer').modal('show');
         }
@@ -210,6 +262,31 @@ function eliminarChofer(id) {
             });
     });    
 }
+
+
+// Buscador chuto
+$('#buscadorChuto').keyup(function(e) {
+    var consulta = $('#buscadorChuto').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-chuto.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
 
 
 // Registro chuto
@@ -299,6 +376,31 @@ function eliminarChuto(id) {
 }
 
 
+// Buscador destino
+$('#buscadorDestino').keyup(function(e) {
+    var consulta = $('#buscadorDestino').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-destino.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
 // Registro destino
 $("#nuevo-destino").submit(function(e) {
     e.preventDefault();
@@ -333,6 +435,10 @@ function obtenerDestino(id) {
             $("#id_destino").val(response.id_destino);
             $("#destino").val(response.destino);
             $("#distancia").val(response.distancia);
+            $("#peaje").val(response.peaje);
+            $("#comida").val(response.comida);
+            $("#combustible").val(response.combustible);
+            $("#otros").val(response.otros);
             // Lanza la ventana modal
             $('#editarDestino').modal('show');
         }
@@ -386,13 +492,38 @@ function eliminarDestino(id) {
 }
 
 
-// Registro viatico
-$("#nuevo-viatico").submit(function(e) {
+// Buscador batea
+$('#buscadorBatea').keyup(function(e) {
+    var consulta = $('#buscadorBatea').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-batea.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
+// Registro batea
+$("#nueva-batea").submit(function(e) {
     e.preventDefault();
 
     $.ajax({
         type: 'post',
-        url: '/transmivyca/controllers/registro-viatico.php',
+        url: '/transmivyca/controllers/registro-batea.php',
         data: $(this).serialize(),
         success: function(data) {
             $("#respuesta").slideDown();
@@ -403,39 +534,37 @@ $("#nuevo-viatico").submit(function(e) {
 });
 
 
-// Obtener viatico
-function obtenerViatico(id) {
+// Obtener batea
+function obtenerBatea(id) {
     var obj = {
         id: id
     }
     
     $.ajax({
-        url: '/transmivyca/controllers/obtener-viatico.php',
+        url: '/transmivyca/controllers/obtener-batea.php',
         data: obj,
         type: 'post',
         dataType: 'json',
         
         // Escribe los datos obtenidos en los campos correspondientes
         success: function (response) {
-            $("#id_viaticos").val(response.id_viaticos);
-            $("#peaje").val(response.peaje);
-            $("#comida").val(response.comida);
-            $("#combustible").val(response.combustible);
-            $("#otros").val(response.otros);
+            $("#id_batea").val(response.id_batea);
+            $("#matricula").val(response.matricula_batea);
+            $("#serial").val(response.serial);
             // Lanza la ventana modal
-            $('#editarViatico').modal('show');
+            $('#editarBatea').modal('show');
         }
     });
 }
 
 
-// Editar viatico
-$("#editar-viatico").submit(function(e) {
+// Editar batea
+$("#editar-batea").submit(function(e) {
     e.preventDefault();
 
     $.ajax({
         type: 'post',
-        url: '/transmivyca/controllers/editar-viatico.php',
+        url: '/transmivyca/controllers/editar-batea.php',
         data: $(this).serialize(),
         success: function(data) {
             $("#respuesta").slideDown();
@@ -446,30 +575,243 @@ $("#editar-viatico").submit(function(e) {
 });
 
 
-// Eliminar viatico
-function eliminarViatico(id) {    
+// Eliminar batea
+function eliminarBatea(id) {    
     swal({
-      title: '¿Eliminar Viático?',
-      text: 'Viático seleccionado será eliminado',
+      title: '¿Eliminar Batea?',
+      text: 'Batea seleccionada será eliminada',
       type: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Aceptar',
       closeOnConfirm: false
     },
     function() {
-        $.post('/transmivyca/controllers/eliminar-viatico.php', {
+        $.post('/transmivyca/controllers/eliminar-batea.php', {
             id: id
         });
         swal({
             title: 'Eliminado!',
-            text: 'Viático eliminado satisfactoriamente',
+            text: 'Batea eliminada satisfactoriamente',
             type: 'success',
             showCancelButton: false,
             confirmButtonText: 'OK',
             closeOnConfirm: false
             },
             function() {
-                location.href = '/transmivyca/views/viaticos.php';
+                location.href = '/transmivyca/views/bateas.php';
+            });
+    });    
+}
+
+
+// Crear asignacion de chuto
+$("#nueva-asignacion").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/registro-asignar-chuto.php',
+        data: $(this).serialize(),
+        success: function(data) {
+            $("#respuesta").slideDown();
+            $("#respuesta").html(data);
+        }
+    });
+    return false;
+});
+
+
+// Buscador asignacion chuto
+$('#buscadorAsignacion').keyup(function(e) {
+    var consulta = $('#buscadorAsignacion').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-asignacion.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
+// Eliminar asignacion chuto
+function eliminarAsignacion(id) {    
+    swal({
+      title: '¿Eliminar Asignación?',
+      text: 'Asignación seleccionada será eliminada',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      closeOnConfirm: false
+    },
+    function() {
+        $.post('/transmivyca/controllers/eliminar-asignacion.php', {
+            id: id
+        });
+        swal({
+            title: 'Eliminado!',
+            text: 'Asignación eliminada satisfactoriamente',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+            closeOnConfirm: false
+            },
+            function() {
+                location.href = '/transmivyca/views/asignar-chuto.php';
+            });
+    });    
+}
+
+
+// Crear asignacion de viaje
+$("#nuevo-viaje").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/registro-asignar-viaje.php',
+        data: $(this).serialize(),
+        success: function(data) {
+            $("#respuesta").slideDown();
+            $("#respuesta").html(data);
+        }
+    });
+    return false;
+});
+
+
+// Buscador viaje
+$('#buscadorViaje').keyup(function(e) {
+    var consulta = $('#buscadorViaje').val();
+    
+    if (consulta.length > 0) {
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-viaje.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
+// Eliminar viaje
+function eliminarViaje(id) {    
+    swal({
+      title: '¿Eliminar Viaje?',
+      text: 'Viaje seleccionado será eliminado',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      closeOnConfirm: false
+    },
+    function() {
+        $.post('/transmivyca/controllers/eliminar-viaje.php', {
+            id: id
+        });
+        swal({
+            title: 'Eliminado!',
+            text: 'Viaje eliminado satisfactoriamente',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+            closeOnConfirm: false
+            },
+            function() {
+                location.href = '/transmivyca/views/asignar-viaje.php';
+            });
+    });    
+}
+
+
+// Crear mantenimiento
+$("#nuevo-mantenimiento").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/registro-mantenimiento.php',
+        data: $(this).serialize(),
+        success: function(data) {
+            $("#respuesta").slideDown();
+            $("#respuesta").html(data);
+        }
+    });
+    return false;
+});
+
+
+// Buscador mantenimiento
+$('#buscadorMantenimiento').keyup(function(e) {
+    var consulta = $('#buscadorMantenimiento').val();
+    
+    if (consulta.length > 0) { 
+        
+        $.ajax({
+            type: 'post',
+            url: '/transmivyca/controllers/buscador-mantenimiento.php',
+            data: 'consulta='+consulta,
+            dataType: 'html',
+            success: function(data) {
+                $('#listado').hide();
+                $('#resultado').show();
+                $('#resultado').html(data);
+            }
+        });
+    
+    } else if (consulta.length == 0) {
+        $('#resultado').hide();
+        $('#listado').show();
+    }
+});
+
+
+// Eliminar mantenimiento
+function eliminarMantenimiento(id) {    
+    swal({
+      title: '¿Eliminar Mantenimiento?',
+      text: 'Mantenimiento seleccionado será eliminado',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      closeOnConfirm: false
+    },
+    function() {
+        $.post('/transmivyca/controllers/eliminar-mantenimiento.php', {
+            id: id
+        });
+        swal({
+            title: 'Eliminado!',
+            text: 'Mantenimiento eliminado satisfactoriamente',
+            type: 'success',
+            showCancelButton: false,
+            confirmButtonText: 'OK',
+            closeOnConfirm: false
+            },
+            function() {
+                location.href = '/transmivyca/views/mantenimiento-chuto.php';
             });
     });    
 }

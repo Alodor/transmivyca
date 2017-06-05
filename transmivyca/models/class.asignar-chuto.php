@@ -1,7 +1,7 @@
 <?php
 require_once '../config/connection.php';
 
-class Mantenimiento {
+class AsignarChuto {
     
     private $pdo;
     
@@ -14,30 +14,30 @@ class Mantenimiento {
     }
     
     // Registro nuevo
-    public function Crear($id_chuto, $kilometraje, $falla, $tipo_mantenimiento, $fecha_ingreso) {
+    public function Crear($id_chofer, $id_chuto, $id_batea) {
         
         try {
             
-            $sql = "SELECT id_chuto FROM mantenimiento_chuto WHERE id_chuto = ?";
+            $sql = "SELECT id_chofer, id_chuto, id_batea FROM asignar_chuto WHERE id_chofer = ? 
+                                                                            OR id_chuto = ?
+                                                                            OR id_batea = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array($id_chuto));
+            $stm->execute(array($id_chofer,
+                                $id_chuto,
+                                $id_batea));
             $row = $stm->fetch(PDO::FETCH_ASSOC);
             
-            if (($row['id_chuto'] != $id_chuto)) { 
+            if (($row['id_chofer'] != $id_chofer) && ($row['id_chuto'] != $id_chuto) && ($row['id_batea'] != $id_batea)) { 
             
-                $sql = "INSERT INTO mantenimiento_chuto (
+                $sql = "INSERT INTO asignar_chuto (
+                                    id_chofer, 
                                     id_chuto, 
-                                    kilometraje, 
-                                    falla, 
-                                    tipo_mantenimiento, 
-                                    fecha_ingreso) VALUES (?, ?, ?, ?, ?)";
+                                    id_batea) VALUES (?, ?, ?)";
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute(array(
+                            $id_chofer,
                             $id_chuto,
-                            $kilometraje,
-                            $falla,
-                            $tipo_mantenimiento,
-                            $fecha_ingreso
+                            $id_batea
                 ));
                 return true;    
             
@@ -56,9 +56,11 @@ class Mantenimiento {
         
         try {
             
-            $sql = "SELECT c.matricula_chuto, m.id_mantenimiento, m.kilometraje, m.falla, m.tipo_mantenimiento,             m.fecha_ingreso
-                    FROM mantenimiento_chuto m INNER JOIN chuto c ON m.id_chuto = c.id_chuto
-                    ORDER BY id_mantenimiento ASC";            
+            $sql = "SELECT a.id_asignar, o.nombre, o.apellido, u.matricula_chuto, b.matricula_batea
+                    FROM asignar_chuto a INNER JOIN chofer o ON a.id_chofer = o.id_chofer
+                    INNER JOIN chuto u ON a.id_chuto = u.id_chuto
+                    INNER JOIN batea b ON a.id_batea = b.id_batea
+                    ORDER BY id_asignar ASC";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -70,33 +72,34 @@ class Mantenimiento {
         
     }
     
-    // Buscador de registros
+    // Buscador registro
     public function Buscar($valor) {
         
         try {
             
-            $sql = "SELECT c.matricula_chuto, m.id_mantenimiento, m.kilometraje, 
-                    m.falla, m.tipo_mantenimiento, m.fecha_ingreso
-                    FROM mantenimiento_chuto m INNER JOIN chuto c ON m.id_chuto = c.id_chuto
-                    WHERE matricula_chuto LIKE '%".$valor."%'
-                    ORDER BY id_mantenimiento ASC";            
+            $sql = "SELECT a.id_asignar, o.nombre, o.apellido, u.matricula_chuto, b.matricula_batea
+                    FROM asignar_chuto a INNER JOIN chofer o ON a.id_chofer = o.id_chofer
+                    INNER JOIN chuto u ON a.id_chuto = u.id_chuto
+                    INNER JOIN batea b ON a.id_batea = b.id_batea
+                    WHERE matricula_chuto LIKE '%".$valor."%' 
+                    ORDER BY id_asignar ASC";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
             return $data;
-            
+                        
         } catch(PDOException $e) {
             die('ERROR: ' . $e->getMessage());
         }   
         
-    }
+    }   
     
     // Eliminar registro
     public function Eliminar($id) {
         
         try {
             
-            $sql = "DELETE FROM mantenimiento_chuto WHERE id_mantenimiento = ?";
+            $sql = "DELETE FROM asignar_chuto WHERE id_asignar = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array($id));
             

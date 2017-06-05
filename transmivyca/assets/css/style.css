@@ -76,6 +76,14 @@ main {
 }
 /* /Navbar */
 
+/* Buscador */
+.buscador {
+    padding: 12px;
+    border: 1px solid #d8d8d8;
+    color: #848484;
+}
+/* /Buscador */
+
 /* Encabezado */
 .titulo {
     margin-top: 130px;
@@ -115,6 +123,10 @@ main {
 /* /Tabla */
 
 /* Alert respuesta */
+.alert .close {
+    font-size: 2em !important;
+}
+
 .alert-danger {
     margin-top: 20px;
     background-color: #ff0000;
@@ -131,6 +143,54 @@ main {
     box-shadow: 0 5px 15px 0 rgba(0,0,0,.2);
 }
 /* /Alert respuesta */
+
+/* Panels */
+.panel-default {
+    margin-top: 30px;
+    border-radius: 0;
+    transition: all .25s ease;
+}
+
+.panel-default:hover {
+    box-shadow: 0 5px 15px 0 rgba(0,0,0,.2);
+}
+
+.panel-default a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.panel-default h2 {
+    font-size: 3.3em;
+}
+
+#clientes {
+    background-color: #006064;
+}
+
+#choferes {
+    background-color: #ff6f00;
+}
+
+#chutos {
+    background-color: #4a148c;
+}
+
+#bateas {
+    background-color: #1256c3;
+}
+
+#destinos {
+    background-color: #546e7a;
+}
+/* /Panels */
+
+/* Icon */
+.panel-default .glyphicon {
+    font-size: 3em;
+    color: rgba(0,0,0,.2);
+}
+/* /Icon */
 
 /* Botones */
 .btn {
@@ -174,8 +234,18 @@ main {
 }
 /* /Modal */
 
+/* Select */
+select .marca {
+    margin-left: 25px;
+    background-color: #f9f9f9;
+    color: #000;
+    font-weight: bold;
+}
+/* /Select */
+
 /* Footer */
 footer {
+    margin-top: 50px;
     margin-bottom: 0px !important;
     border-radius: 0px !important;
 }

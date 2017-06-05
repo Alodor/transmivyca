@@ -16,6 +16,8 @@ if (isset($id)) {
         'apellido' => $data['apellido'],
         'direccion' => $data['direccion'],
         'telefono' => $data['telefono'],
+        'fv_licencia' => $data['fecha_vencimiento_licencia'],
+        'fv_certificado' => $data['fecha_vencimiento_certificado_medico'],
     ];
     echo json_encode($response);
     

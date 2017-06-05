@@ -1,6 +1,6 @@
-<?php
+<?php 
 
-include 'session.php';
+include 'session.php'; 
 require_once '../models/class.cliente.php';
 
 $listar = new Cliente();
@@ -19,9 +19,13 @@ $listar = new Cliente();
         <h1 class="titulo text-center">Clientes</h1>
         <!-- /Encabezado -->
         
-        <div class="container">            
+        <div class="container">
             <div class="text-right">
-               <!-- Nuevo -->
+                <!-- Buscador -->
+                <input id="buscadorCliente" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
+                <!-- /Buscador -->
+                
+                <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
                 <!-- /Nuevo -->
                 
@@ -31,7 +35,9 @@ $listar = new Cliente();
             </div>            
             
             <!-- Tabla clientes -->
-            <div class="table-responsive">
+            <div id="resultado" class="table-responsive" style="display: none"></div>
+            
+            <div id="listado" class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -44,18 +50,22 @@ $listar = new Cliente();
                             <th>Acciones</th>
                         </tr>
                     </thead>
+                    
                     <tbody class="text-center">
-                        <?php      
+                        <?php                        
                         $data = $listar->Listar();
-                        foreach ($data as $key => $valor) { ?>
+                        foreach ($data as $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_cliente']; ?></td>
-                            <td class="rif"><?php echo $valor['rif']; ?></td>
-                            <td class="razon_social"><?php echo $valor['razon_social']; ?></td>
-                            <td class="direccion"><?php echo $valor['direccion']; ?></td>
-                            <td class="telefono"><?php echo $valor['telefono']; ?></td>
-                            <td class="responsable"><?php echo $valor['responsable']; ?></td>
+                            <td><?php echo $valor['rif']; ?></td>
+                            <td><?php echo $valor['razon_social']; ?></td>
+                            <td><?php echo $valor['direccion']; ?></td>
+                            <td><?php echo $valor['telefono']; ?></td>
+                            <td><?php echo $valor['responsable']; ?></td>
                             <td>
+                                <?php 
+                                if ($_SESSION['privilegio'] == "administrador") { ?>
+                                
                                 <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_cliente']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
@@ -63,13 +73,22 @@ $listar = new Cliente();
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarCliente(<?php echo $valor['id_cliente']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_cliente']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php                        
                         }                        
-                        ?>                        
+                        ?>                            
                     </tbody>
-                </table>       
+                </table>
             </div>
             <!-- /Tabla clientes -->
             

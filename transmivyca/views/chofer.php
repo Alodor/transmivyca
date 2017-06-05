@@ -1,6 +1,6 @@
-<?php
+<?php 
 
-include 'session.php';
+include 'session.php'; 
 require_once '../models/class.chofer.php';
 
 $listar = new Chofer();
@@ -21,6 +21,10 @@ $listar = new Chofer();
         
         <div class="container">
             <div class="text-right">
+               <!-- Buscador -->
+                <input id="buscadorChofer" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
+                <!-- /Buscador -->
+              
                <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
                 <!-- /Nuevo -->
@@ -31,7 +35,9 @@ $listar = new Chofer();
             </div>
             
             <!-- Tabla chofer -->
-            <div class="table-responsive">
+            <div id="resultado" class="table-responsive" style="display: none"></div>
+            
+            <div id="listado" class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -41,15 +47,16 @@ $listar = new Chofer();
                             <th>Apellido</th>
                             <th>Dirección</th>
                             <th>Teléfono</th>
+                            <th>F.V. Licencia</th>
+                            <th>F.V. Certificado</th>
                             <th>Fecha Ingreso</th>
-                            <th>Estatus</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
                         <?php                        
                         $data = $listar->Listar();
-                        foreach ($data as $key => $valor) { ?>
+                        foreach ($data as $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_chofer']; ?></td>
                             <td><?php echo $valor['cedula']; ?></td>
@@ -57,9 +64,13 @@ $listar = new Chofer();
                             <td><?php echo $valor['apellido']; ?></td>
                             <td><?php echo $valor['direccion']; ?></td>
                             <td><?php echo $valor['telefono']; ?></td>
+                            <td><?php echo $valor['fecha_vencimiento_licencia']; ?></td>
+                            <td><?php echo $valor['fecha_vencimiento_certificado_medico']; ?></td>
                             <td><?php echo $valor['fecha_ingreso']; ?></td>
-                            <td><?php echo $valor['estatus']; ?></td>
                             <td>
+                                <?php 
+                                if ($_SESSION['privilegio'] == "administrador") { ?>
+                                
                                 <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerChofer(<?php echo $valor['id_chofer']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
@@ -67,11 +78,20 @@ $listar = new Chofer();
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarChofer(<?php echo $valor['id_chofer']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerChofer(<?php echo $valor['id_chofer']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php                        
                         }                        
-                        ?>                          
+                        ?>                            
                     </tbody>
                 </table>
             </div>
@@ -115,12 +135,13 @@ $listar = new Chofer();
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                                    <select class="form-control" name="estatus">
-                                        <option value="seleccione">Seleccione</option>
-                                        <option value="ACTIVO">Activo</option>
-                                        <option value="INACTIVO" disabled>Inactivo</option>
-                                    </select>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia">
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado">
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -180,12 +201,13 @@ $listar = new Chofer();
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-heart"></i></span>
-                                    <select class="form-control" name="estatus">
-                                        <option value="seleccione">Seleccione</option>
-                                        <option value="ACTIVO" disabled>Activo</option>
-                                        <option value="INACTIVO">Inactivo</option>
-                                    </select>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input id="fv_licencia" type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia">
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <input id="fv_certificado" type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado">
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

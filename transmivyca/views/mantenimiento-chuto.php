@@ -2,8 +2,10 @@
 
 include 'session.php';
 require_once '../models/class.mantenimiento.php';
+require_once '../models/class.chuto.php';
 
 $listar = new Mantenimiento();
+$chuto = new Chuto();
 
 ?>
 <!Doctype html>
@@ -21,7 +23,11 @@ $listar = new Mantenimiento();
         
         <div class="container">
             <div class="text-right">
-               <!-- Nuevo -->
+                <!-- Buscador -->
+                <input id="buscadorMantenimiento" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
+                <!-- /Buscador -->
+               
+                <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
                 <!-- /Nuevo -->
                 
@@ -31,38 +37,41 @@ $listar = new Mantenimiento();
             </div>
             
             <!-- Tabla clientes -->
-            <div class="table-responsive">
+            <div id="resultado" class="table-responsive" style="display: none"></div>
+            
+            <div id="listado" class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Matrícula</th>
                             <th>Kilometraje</th>
                             <th>Falla</th>
-                            <th>Diagnóstico</th>
+                            <th>Tipo Mantenimiento</th>
                             <th>Fecha Ingreso</th>
-                            <th>Fecha Egreso</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
                         <?php                        
                         $data = $listar->Listar();
-                        foreach ($data as $key => $valor) { ?>
+                        foreach ($data as $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_mantenimiento']; ?></td>
+                            <td><?php echo $valor['matricula_chuto']; ?></td>
                             <td><?php echo $valor['kilometraje']; ?></td>
                             <td><?php echo $valor['falla']; ?></td>
-                            <td><?php echo $valor['diagnostico']; ?></td>
+                            <td><?php echo $valor['tipo_mantenimiento']; ?></td>
                             <td><?php echo $valor['fecha_ingreso']; ?></td>
-                            <td><?php echo $valor['fecha_egreso']; ?></td>
                             <td>
-                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerCliente(<?php echo $valor['id_mantenimiento']; ?>)">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </a>
+                                <?php 
+                                if ($_SESSION['privilegio'] == "administrador") { ?>
                                 
-                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarCliente(<?php echo $valor['id_mantenimiento']; ?>)">
+                                <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarMantenimiento(<?php echo $valor['id_mantenimiento']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
+                                
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php                        
@@ -84,32 +93,48 @@ $listar = new Mantenimiento();
                         </div>
                         <div class="modal-body">
                             <!-- Formulario -->
-                            <form id="nuevo-cliente">
+                            <form id="nuevo-mantenimiento">
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-object-align-right"></i></span>
+                                    <select class="form-control" name="chuto" data-toggle="tooltip" data-placement="right" title="Chuto">
+                                        <option value="seleccione">Seleccione</option>
+                                        <?php
+                                        $data = $chuto->ListarChuto();
+                                        foreach ($data as $valor) { ?>
+                                            <option value="<?php echo $valor['id_chuto']; ?>"><?php echo $valor['matricula_chuto']; ?></option>
+                                        <?php                        
+                                        }                        
+                                        ?>  
+                                    </select>
+                                </div>
+                                <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
-                                    <input type="text" class="form-control" name="kilometraje" placeholder="Kilometraje" required>
+                                    <input type="text" class="form-control" name="kilometraje" placeholder="Kilometraje" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input type="text" class="form-control" name="falla" placeholder="Falla" required>
+                                    <select class="form-control" name="falla" data-toggle="tooltip" data-placement="right" title="Falla">
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="CIGUEÑAL">Cigueñal</option>
+                                        <option value="TRANSMISION">Transmisión</option>
+                                        <option value="MOTOR">Motor</option>
+                                        <option value="EMBRAGUE">Embrague</option>
+                                        <option value="ALTERNADOR">Alternador</option>
+                                    </select>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
-                                    <input type="text" class="form-control" name="diagnostico" placeholder="Diágnostico">
+                                    <select class="form-control" name="tipo_mantenimiento" data-toggle="tooltip" data-placement="right" title="Tipo Mantenimiento">
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="PREDICTIVO">Predictivo</option>
+                                        <option value="PREVENTIVO">Preventivo</option>
+                                        <option value="CORRECTIVO">Correctivo</option>
+                                    </select>
                                 </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input type="date" class="form-control" name="fecha_ingreso" data-toggle="tooltip" data-placement="right" title="Fecha Ingreso">
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input type="date" class="form-control" name="fecha_egreso" disabled>
-                                </div>
-                                <!-- ****************************** -->
+                                <!-- ****************************** -->                                
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
                             </form>
                             <!-- /Formulario -->
@@ -126,62 +151,6 @@ $listar = new Mantenimiento();
                 </div>
             </div>
             <!-- /Modal nuevo -->
-            
-            <!-- Modal editar -->
-            <div id="nuevo" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h3 class="modal-title">Editar Mantenimiento</h3>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Formulario -->
-                            <form id="nuevo-cliente">
-                                <div class="form-group input-group">
-                                    <input id="id_mantenimiento" name="id_mantenimiento" type="hidden">
-                                    
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
-                                    <input id="kilometraje" type="text" class="form-control" name="kilometraje" placeholder="Kilometraje" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input id="falla" type="text" class="form-control" name="falla" placeholder="Falla" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-wrench"></i></span>
-                                    <input id="diagnostico" type="text" class="form-control" name="diagnostico" placeholder="Diágnostico">
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fecha_ingreso" type="date" class="form-control" name="fecha_ingreso" data-toggle="tooltip" data-placement="right" title="Fecha Ingreso">
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fecha_egreso" type="date" class="form-control" name="fecha_egreso" disabled>
-                                </div>
-                                <!-- ****************************** -->
-                                <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
-                            </form>
-                            <!-- /Formulario -->
-                            
-                            <!-- Respuesta -->
-                            <div id="respuesta" style="display: none"></div>
-                            <!-- /Respuesta -->
-                        </div>
-                        <div class="modal-footer">                            
-                            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cerrar</button>
-                        </div>
-                    </div>
-                    <!-- /Modal content-->
-                </div>
-            </div>
-            <!-- /Modal editar -->
         </div>
         
         <?php include '../assets/footer.php'; ?>

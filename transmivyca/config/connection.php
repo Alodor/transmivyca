@@ -3,7 +3,7 @@
 // Se definen las constantes de conexion
 define('HOST','localhost');
 define('USER','root');
-define('PASSWORD','yasme123');
+define('PASSWORD','');
 define('DB','transmivyca');
 
 class Database {

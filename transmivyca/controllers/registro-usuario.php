@@ -29,6 +29,6 @@ if (($user == "") || ($password == "") || ($privilegio == "") || ($privilegio ==
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Usuario no puede ser registrado</div>
+        <div class='alert-body text-center'>Usuario ya se encuentra registrado</div>
     </div>";
 }

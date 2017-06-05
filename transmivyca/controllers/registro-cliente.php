@@ -42,6 +42,6 @@ if (($rif == "") || ($razon_social == "") || ($direccion == "") || ($telefono ==
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Cliente no puede ser registrado</div>
+        <div class='alert-body text-center'>Cliente ya se encuentra registrado</div>
     </div>";
 }

@@ -14,7 +14,7 @@ $serial_carroceria = htmlspecialchars($_POST['serial_carroceria']);
 
 
 // Validacion de variables
-if (($matricula == "") || ($marca == "") || ($modelo == "") || ($color == "") || ($annio == "") || ($serial_motor == "") || ($serial_carroceria == "")) {    
+if (($matricula == "") || ($marca == "") || ($modelo == "") || ($color == "seleccione") || ($annio == "") || ($serial_motor == "") || ($serial_carroceria == "")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -44,6 +44,6 @@ if (($matricula == "") || ($marca == "") || ($modelo == "") || ($color == "") ||
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Chuto no puede ser registrado</div>
+        <div class='alert-body text-center'>Chuto ya se encuentra registrado</div>
     </div>";
 }

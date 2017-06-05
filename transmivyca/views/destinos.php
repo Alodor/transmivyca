@@ -1,6 +1,6 @@
-<?php
+<?php 
 
-include 'session.php';
+include 'session.php'; 
 require_once '../models/class.destino.php';
 
 $listar = new Destino();
@@ -21,7 +21,11 @@ $listar = new Destino();
         
         <div class="container">
             <div class="text-right">
-               <!-- Nuevo -->
+                <!-- Buscador -->
+                <input id="buscadorDestino" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
+                <!-- /Buscador -->
+              
+                <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
                 <!-- /Nuevo -->
                 
@@ -31,26 +35,42 @@ $listar = new Destino();
             </div>
             
             <!-- Tabla destinos -->
-            <div class="table-responsive">
+            <div id="resultado" class="table-responsive" style="display: none"></div>
+            
+            <div id="listado" class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Origen</th>
                             <th>Destino</th>
-                            <th>Distancia Km</th>
-                            <th>Viáticos</th>
+                            <th>Distancia</th>
+                            <th>Peaje</th>
+                            <th>Comida</th>
+                            <th>Combustible</th>
+                            <th>Otros</th>
+                            <th>Total</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="text-center">
                         <?php                        
                         $data = $listar->Listar();
-                        foreach ($data as $key => $valor) { ?>
+                        foreach ($data as $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_destino']; ?></td>
+                            <td><?php echo $valor['origen']; ?></td>
                             <td><?php echo $valor['destino']; ?></td>
                             <td><?php echo $valor['distancia']; ?></td>
+                            <td><?php echo $valor['peaje']; ?></td>
+                            <td><?php echo $valor['comida']; ?></td>
+                            <td><?php echo $valor['combustible']; ?></td>
+                            <td><?php echo $valor['otros']; ?></td>
+                            <td><?php echo $valor['total']; ?></td>
                             <td>
+                                <?php 
+                                if ($_SESSION['privilegio'] == "administrador") { ?>
+                                
                                 <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerDestino(<?php echo $valor['id_destino']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
@@ -58,11 +78,20 @@ $listar = new Destino();
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarDestino(<?php echo $valor['id_destino']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerDestino(<?php echo $valor['id_destino']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php                        
                         }                        
-                        ?>                          
+                        ?>                        
                     </tbody>
                 </table>
             </div>
@@ -88,6 +117,26 @@ $listar = new Destino();
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
                                     <input type="text" class="form-control" name="distancia" placeholder="Distancia" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input type="text" class="form-control" name="peaje" placeholder="Peaje" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-cutlery"></i></span>
+                                    <input type="text" class="form-control" name="comida" placeholder="Comida" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-oil"></i></span>
+                                    <input type="text" class="form-control" name="combustible" placeholder="Combustible" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-piggy-bank"></i></span>
+                                    <input type="text" class="form-control" name="otros" placeholder="Otros" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -130,6 +179,26 @@ $listar = new Destino();
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-dashboard"></i></span>
                                     <input id="distancia" type="text" class="form-control" name="distancia" placeholder="Distancia" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
+                                <!-- ****************************** -->                                
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
+                                    <input id="peaje" type="text" class="form-control" name="peaje" placeholder="Peaje" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-cutlery"></i></span>
+                                    <input id="comida" type="text" class="form-control" name="comida" placeholder="Comida" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-oil"></i></span>
+                                    <input id="combustible" type="text" class="form-control" name="combustible" placeholder="Combustible" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-piggy-bank"></i></span>
+                                    <input id="otros" type="text" class="form-control" name="otros" placeholder="Otros" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
+                                </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
                             </form>
@@ -149,6 +218,6 @@ $listar = new Destino();
             <!-- /Modal editar -->
         </div>
         
-        <?php include '../assets/footer.php'; ?>
+        <?php include '../assets/footer.php'; ?>        
     </body>
 </html>

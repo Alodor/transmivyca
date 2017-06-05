@@ -18,7 +18,7 @@ class Chuto {
         
         try {
             
-            $sql = "SELECT * FROM chuto ORDER BY id_chuto DESC";
+            $sql = "SELECT * FROM chuto ORDER BY id_chuto ASC";
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +29,64 @@ class Chuto {
         }        
         
     }
+    
+    // Mostrar total de registros
+    public function totalChuto() {
+        
+        try {
+            
+            $sql = "SELECT id_chuto FROM chuto";            
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $row = $stm->rowCount();
+            return $row;
+                        
+        } catch(PDOException $e) {
+            die('ERROR: ' . $e->getMessage());
+        }   
+        
+    }
+    
+    // Listar registros especificos
+    public function ListarChuto() {
+        
+        try {
+            
+            $sql = "SELECT id_chuto, matricula_chuto FROM chuto";            
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+                        
+        } catch(PDOException $e) {
+            die('ERROR: ' . $e->getMessage());
+        }   
+        
+    }
+    
+    // Lista registro e incluye un buscador
+    public function Buscar($valor) {
+        
+        try {
+            
+            $sql = "SELECT * FROM chuto WHERE 
+                    matricula_chuto LIKE '%".$valor."%' 
+                    OR marca LIKE '%".$valor."%' 
+                    OR modelo LIKE '%".$valor."%'
+                    OR color LIKE '%".$valor."%'
+                    OR serial_motor LIKE '%".$valor."%'
+                    OR serial_carroceria LIKE '%".$valor."%'    
+                    ORDER BY id_chuto ASC";            
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+                        
+        } catch(PDOException $e) {
+            die('ERROR: ' . $e->getMessage());
+        }   
+        
+    }       
     
     // Obtener valor
     public function Obtener($id) {
@@ -52,25 +110,36 @@ class Chuto {
         
         try {
             
-            $sql = "INSERT INTO chuto (
-                                    matricula, 
+            $sql = "SELECT matricula_chuto FROM chuto WHERE matricula_chuto = ?";
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute(array($matricula));
+            $row = $stm->fetch(PDO::FETCH_ASSOC);
+            
+            if ($row['matricula'] != $matricula) {
+                
+                $sql = "INSERT INTO chuto (
+                                    matricula_chuto, 
                                     marca, 
                                     modelo, 
                                     color,
                                     annio, 
                                     serial_motor, 
                                     serial_carroceria) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $stm = $this->pdo->prepare($sql);
-            $stm->execute(array(
-                        $matricula,
-                        $marca,
-                        $modelo,                        
-                        $color,
-                        $annio,
-                        $serial_motor,
-                        $serial_carroceria
-            ));
-            return true;    
+                $stm = $this->pdo->prepare($sql);
+                $stm->execute(array(
+                            $matricula,
+                            $marca,
+                            $modelo,                        
+                            $color,
+                            $annio,
+                            $serial_motor,
+                            $serial_carroceria
+                ));
+                return true; 
+                
+            } else {
+                return false;
+            } 
             
         } catch(PDOException $e) {
             die('ERROR: ' . $e->getMessage());

@@ -1,6 +1,6 @@
-<?php
+<?php 
 
-include 'session.php';
+include 'session.php'; 
 require_once '../models/class.chuto.php';
 
 $listar = new Chuto();
@@ -21,7 +21,11 @@ $listar = new Chuto();
         
         <div class="container">
             <div class="text-right">
-               <!-- Nuevo -->
+                <!-- Buscador -->
+                <input id="buscadorChuto" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
+                <!-- /Buscador -->
+              
+                <!-- Nuevo -->
                 <a class="btn btn-success btn-lg" data-toggle="modal" data-target="#nuevo"><span class="glyphicon glyphicon-new-window"></span> Nuevo</a>
                 <!-- /Nuevo -->
                 
@@ -31,7 +35,9 @@ $listar = new Chuto();
             </div>
             
             <!-- Tabla chutos -->
-            <div class="table-responsive">
+            <div id="resultado" class="table-responsive" style="display: none"></div>
+            
+            <div id="listado" class="table-responsive">
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -49,10 +55,10 @@ $listar = new Chuto();
                     <tbody class="text-center">
                         <?php                        
                         $data = $listar->Listar();
-                        foreach ($data as $key => $valor) { ?>
+                        foreach ($data as $valor) { ?>
                         <tr>
                             <td><?php echo $valor['id_chuto']; ?></td>
-                            <td><?php echo $valor['matricula']; ?></td>
+                            <td><?php echo $valor['matricula_chuto']; ?></td>
                             <td><?php echo $valor['marca']; ?></td>
                             <td><?php echo $valor['modelo']; ?></td>
                             <td><?php echo $valor['color']; ?></td>
@@ -60,6 +66,9 @@ $listar = new Chuto();
                             <td><?php echo $valor['serial_motor']; ?></td>
                             <td><?php echo $valor['serial_carroceria']; ?></td>
                             <td>
+                                <?php 
+                                if ($_SESSION['privilegio'] == "administrador") { ?>
+                                
                                 <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerChuto(<?php echo $valor['id_chuto']; ?>)">
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
@@ -67,11 +76,20 @@ $listar = new Chuto();
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarChuto(<?php echo $valor['id_chuto']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerChuto(<?php echo $valor['id_chuto']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
+                                <?php } ?>
                             </td>
                         </tr>
                         <?php                        
                         }                        
-                        ?>                          
+                        ?>                            
                     </tbody>
                 </table>
             </div>
@@ -110,27 +128,36 @@ $listar = new Chuto();
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
                                     <select class="form-control" name="modelo" data-toggle="tooltip" data-placement="right" title="Modelo">
                                         <option value="seleccione">Seleccione</option>
-                                        <option disabled>Volvo</option>
+                                        <option class="marca" disabled>Volvo</option>
                                         <option value="VM">VM</option>
                                         <option value="VN">VN</option>
-                                        <option disabled>Mercedes-Benz</option>
+                                        <option class="marca" disabled>Mercedes-Benz</option>
                                         <option value="L710-42">L710-42</option>
                                         <option value="ZETROS">Zetros</option>
-                                        <option disabled>Iveco</option>
+                                        <option class="marca" disabled>Iveco</option>
                                         <option value="STRALIS">Stralis</option>
                                         <option value="TECTOR">Tector</option>
-                                        <option disabled>International</option>
+                                        <option class="marca" disabled>International</option>
                                         <option value="DURASTAR">Durastar</option>
                                         <option value="TRANSTAR">Transtar</option>
-                                        <option disabled>Mack</option>
+                                        <option class="marca" disabled>Mack</option>
                                         <option value="VISION">Vision</option>
                                         <option value="GRANITE">Granite</option>
                                     </select>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-star-empty"></i></span>
-                                    <input type="text" class="form-control" name="color" placeholder="Color" onKeyUp="this.value=this.value.toUpperCase()" onkeypress="return onlyText(event)" onpaste="return false" autocomplete="off" required>
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
+                                    <select class="form-control" name="color" data-toggle="tooltip" data-placement="right" title="Color">
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="NEGRO">Negro</option>
+                                        <option value="ROJO">Rojo</option>
+                                        <option value="BLANCO">Blanco</option>
+                                        <option value="AZUL">Azul</option>
+                                        <option value="VERDE">Verde</option>
+                                        <option value="PLATEADO">Plateado</option>
+                                        <option value="AMARILLO">Amarillo</option>
+                                    </select>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">

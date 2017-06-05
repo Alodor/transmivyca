@@ -10,11 +10,12 @@ $nombre = htmlspecialchars($_POST['nombre']);
 $apellido = htmlspecialchars($_POST['apellido']);
 $direccion = htmlspecialchars($_POST['direccion']);
 $telefono = htmlspecialchars($_POST['telefono']);
-$estatus = htmlspecialchars($_POST['estatus']);
+$fv_licencia = $_POST['fv_licencia'];
+$fv_certificado = $_POST['fv_certificado'];
 
 
 // Validacion de variables
-if (($id == "") || ($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "") || ($estatus == "")) {    
+if (($id == "") || ($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -22,7 +23,7 @@ if (($id == "") || ($cedula == "") || ($nombre == "") || ($apellido == "") || ($
     </div>";
 
 // Ejecuta el metodo actualizar
-} elseif ($editar->Actualizar($cedula, $nombre, $apellido, $direccion, $telefono, $estatus, $id)) {
+} elseif ($editar->Actualizar($cedula, $nombre, $apellido, $direccion, $telefono, $fv_licencia, $fv_certificado, $id)) {
     echo "
     <script>
         swal({
