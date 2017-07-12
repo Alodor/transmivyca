@@ -321,6 +321,7 @@ function obtenerChuto(id) {
         // Escribe los datos obtenidos en los campos correspondientes
         success: function (response) {
             $("#id_chuto").val(response.id_chuto);
+            $("#matricula_chuto").val(response.matricula_chuto);
             $("#serial_motor").val(response.serial_motor);
             $("#serial_carroceria").val(response.serial_carroceria);
             // Lanza la ventana modal
@@ -692,6 +693,28 @@ $("#nuevo-viaje").submit(function(e) {
 });
 
 
+// Obtener viaje
+function obtenerViaje(id) {
+    var obj = {
+        id: id
+    };
+    
+    $.ajax({
+        url: '/transmivyca/controllers/obtener-viaje.php',
+        data: obj,
+        type: 'post',
+        dataType: 'json',
+        
+        // Escribe los datos obtenidos en los campos correspondientes
+        success: function (response) {
+            $("#id_viaje").val(response.id_viaje);
+            // Lanza la ventana modal
+            $('#editarViaje').modal('show');
+        }
+    });
+}
+
+
 // Buscador viaje
 $('#buscadorViaje').keyup(function(e) {
     var consulta = $('#buscadorViaje').val();
@@ -714,6 +737,23 @@ $('#buscadorViaje').keyup(function(e) {
         $('#resultado').hide();
         $('#listado').show();
     }
+});
+
+
+// Editar viaje
+$("#editar-viaje").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/editar-viaje.php',
+        data: $(this).serialize(),
+        success: function(data) {
+            $("#respuesta").slideDown();
+            $("#respuesta").html(data);
+        }
+    });
+    return false;
 });
 
 
@@ -788,6 +828,45 @@ $('#buscadorMantenimiento').keyup(function(e) {
 });
 
 
+// Obtener mantenimiento
+function obtenerMantenimiento(id) {
+    var obj = {
+        id: id
+    };
+    
+    $.ajax({
+        url: '/transmivyca/controllers/obtener-mantenimiento.php',
+        data: obj,
+        type: 'post',
+        dataType: 'json',
+        
+        // Escribe los datos obtenidos en los campos correspondientes
+        success: function (response) {
+            $("#id_mantenimiento").val(response.id_mantenimiento);
+            // Lanza la ventana modal
+            $('#editarMantenimiento').modal('show');
+        }
+    });
+}
+
+
+// Editar mantenimiento
+$("#editar-mantenimiento").submit(function(e) {
+    e.preventDefault();
+
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/editar-mantenimiento.php',
+        data: $(this).serialize(),
+        success: function(data) {
+            $("#respuesta").slideDown();
+            $("#respuesta").html(data);
+        }
+    });
+    return false;
+});
+
+
 // Eliminar mantenimiento
 function eliminarMantenimiento(id) {    
     swal({
@@ -815,3 +894,42 @@ function eliminarMantenimiento(id) {
             });
     });    
 }
+
+
+// Buscador por fecha asignar viaje
+$('#desde').on('change', function() {
+    var desde = $('#desde').val();
+    var hasta = $('#hasta').val();    
+    
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/buscar-viaje-fecha.php',
+        data: 'desde='+desde+'&hasta='+hasta,
+        dataType: 'html',
+        success: function(data) {
+            $('#listado').hide();
+            $('#resultado').show();
+            $('#resultado').html(data);
+        }
+    });
+	return false;
+});
+
+	
+$('#hasta').on('change', function() {
+    var desde = $('#desde').val();
+    var hasta = $('#hasta').val();
+	
+    $.ajax({
+        type: 'post',
+        url: '/transmivyca/controllers/buscar-viaje-fecha.php',
+        data: 'desde='+desde+'&hasta='+hasta,
+        dataType: 'html',
+        success: function(data) {
+            $('#listado').hide();
+            $('#resultado').show();
+            $('#resultado').html(data);
+        }
+    });
+	return false;
+});

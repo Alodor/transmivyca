@@ -18,16 +18,12 @@ class AsignarChuto {
         
         try {
             
-            $sql = "SELECT id_chofer, id_chuto, id_batea FROM asignar_chuto WHERE id_chofer = ? 
-                                                                            OR id_chuto = ?
-                                                                            OR id_batea = ?";
+            $sql = "SELECT id_chuto FROM mantenimiento_chuto WHERE id_chuto = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array($id_chofer,
-                                $id_chuto,
-                                $id_batea));
+            $stm->execute(array($id_chuto));
             $row = $stm->fetch(PDO::FETCH_ASSOC);
             
-            if (($row['id_chofer'] != $id_chofer) && ($row['id_chuto'] != $id_chuto) && ($row['id_batea'] != $id_batea)) { 
+            if ($row['id_chuto'] != $id_chuto) { 
             
                 $sql = "INSERT INTO asignar_chuto (
                                     id_chofer, 

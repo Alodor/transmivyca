@@ -18,6 +18,20 @@ if (($rif == "") || ($razon_social == "") || ($direccion == "") || ($telefono ==
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
         <div class='alert-body text-center'>Cliente no puede ser registrado</div>
     </div>";
+    
+} elseif (strlen($telefono) < 11) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Número de teléfono inválido</div>
+    </div>";
+    
+} elseif (strlen($rif) < 11) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>RIF inválido</div>
+    </div>";
 
 // Ejecuta el metodo registrar
 } elseif ($crear->Crear($rif, $razon_social, $direccion, $telefono, $responsable)) {

@@ -16,7 +16,7 @@ $listar = new Chofer();
         <!-- /Navbar -->
         
         <!-- Encabezado -->
-        <h1 class="titulo text-center">Choferes</h1>
+        <h1 class="titulo text-center">Gestionar Choferes</h1>
         <!-- /Encabezado -->
         
         <div class="container">
@@ -136,12 +136,12 @@ $listar = new Chofer();
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia">
+                                    <input type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia" min="<?php $hoy = date('Y-m-d'); echo $hoy; ?>" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado">
+                                    <input type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado" min="<?php $hoy = date('Y-m-d'); echo $hoy; ?>" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -202,12 +202,12 @@ $listar = new Chofer();
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fv_licencia" type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia">
+                                    <input id="fv_licencia" type="date" class="form-control" name="fv_licencia" data-toggle="tooltip" data-placement="right" title="Vencimiento Licencia" min="<?php $hoy = date('Y-m-d'); echo $hoy; ?>" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                    <input id="fv_certificado" type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado">
+                                    <input id="fv_certificado" type="date" class="form-control" name="fv_certificado" data-toggle="tooltip" data-placement="right" title="Vencimiento Certificado" min="<?php $hoy = date('Y-m-d'); echo $hoy; ?>" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

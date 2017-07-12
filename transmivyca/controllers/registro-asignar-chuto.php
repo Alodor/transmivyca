@@ -39,6 +39,6 @@ if (($id_chofer == "seleccione") || ($id_chuto == "seleccione") || ($id_batea ==
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Ya se encuentra registrada una asignación</div>
+        <div class='alert-body text-center'>Chuto se encuentra en mantenimiento</div>
     </div>";
 }

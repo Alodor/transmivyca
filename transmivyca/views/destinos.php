@@ -61,12 +61,12 @@ $listar = new Destino();
                             <td><?php echo $valor['id_destino']; ?></td>
                             <td><?php echo $valor['origen']; ?></td>
                             <td><?php echo $valor['destino']; ?></td>
-                            <td><?php echo $valor['distancia']; ?></td>
-                            <td><?php echo $valor['peaje']; ?></td>
-                            <td><?php echo $valor['comida']; ?></td>
-                            <td><?php echo $valor['combustible']; ?></td>
-                            <td><?php echo $valor['otros']; ?></td>
-                            <td><?php echo $valor['total']; ?></td>
+                            <td><?php echo $valor['distancia']; ?> Km</td>
+                            <td><?php echo $valor['peaje']; ?> Bs.</td>
+                            <td><?php echo $valor['comida']; ?> Bs.</td>
+                            <td><?php echo $valor['combustible']; ?> Bs.</td>
+                            <td><?php echo $valor['otros']; ?> Bs.</td>
+                            <td><?php echo $valor['total']; ?> Bs.</td>
                             <td>
                                 <?php 
                                 if ($_SESSION['privilegio'] == "administrador") { ?>

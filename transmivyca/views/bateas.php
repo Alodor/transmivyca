@@ -16,7 +16,7 @@ $listar = new Batea();
         <!-- /Navbar -->
         
         <!-- Encabezado -->
-        <h1 class="titulo text-center">Bateas</h1>
+        <h1 class="titulo text-center">Gestionar Bateas</h1>
         <!-- /Encabezado -->
         
         <div class="container">
@@ -108,7 +108,7 @@ $listar = new Batea();
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input type="text" class="form-control" name="serial" placeholder="Serial" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input type="text" class="form-control" name="serial" placeholder="Serial" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
@@ -155,12 +155,23 @@ $listar = new Batea();
                                     <input id="id_batea" name="id_batea" type="hidden">
                                     
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input id="matricula" type="text" class="form-control" name="matricula" placeholder="Matrícula" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input id="matricula" type="text" class="form-control" name="matricula" placeholder="Matrícula" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" maxlength="10" data-toggle="tooltip" data-placement="right" title="Matrícula" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input id="serial" type="text" class="form-control" name="serial" placeholder="Serial" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input id="serial" type="text" class="form-control" name="serial" placeholder="Serial" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" maxlength="10" data-toggle="tooltip" data-placement="right" title="Serial" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
+                                    <select class="form-control" name="eje" data-toggle="tooltip" data-placement="right" title="Eje">
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

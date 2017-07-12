@@ -52,7 +52,26 @@ class Chuto {
         
         try {
             
-            $sql = "SELECT id_chuto, matricula_chuto FROM chuto";            
+            $sql = "SELECT id_chuto, matricula_chuto FROM chuto WHERE id_chuto 
+                    NOT IN (SELECT id_chuto FROM asignar_chuto)";            
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+                        
+        } catch(PDOException $e) {
+            die('ERROR: ' . $e->getMessage());
+        }   
+        
+    }
+    
+    public function ListarChutoMantenimiento() {
+        
+        try {
+            
+            $sql = "SELECT a.id_chuto, ch.matricula_chuto
+                    FROM asignar_chuto a INNER JOIN chuto ch
+                    ON a.id_chuto = ch.id_chuto";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -106,7 +125,7 @@ class Chuto {
     }
     
     // Crea un nuevo registro
-    public function Crear($matricula, $marca, $modelo, $color, $annio, $serial_motor, $serial_carroceria) {
+    public function Crear($matricula, $marca, $modelo, $color, $eje, $annio, $serial_motor, $serial_carroceria) {
         
         try {
             
@@ -122,15 +141,17 @@ class Chuto {
                                     marca, 
                                     modelo, 
                                     color,
+                                    eje,
                                     annio, 
                                     serial_motor, 
-                                    serial_carroceria) VALUES (?, ?, ?, ?, ?, ?, ?)";
+                                    serial_carroceria) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stm = $this->pdo->prepare($sql);
                 $stm->execute(array(
                             $matricula,
                             $marca,
                             $modelo,                        
                             $color,
+                            $eje,
                             $annio,
                             $serial_motor,
                             $serial_carroceria
@@ -148,16 +169,18 @@ class Chuto {
     }
     
     // Realiza una actualizacion del registro seleccionado
-    public function Actualizar($serial_motor, $serial_carroceria, $id) {
+    public function Actualizar($matricula_chuto, $serial_motor, $serial_carroceria, $id) {
         
         try {
             
             $sql = "UPDATE chuto SET
+                                matricula_chuto = ?,
                                 serial_motor = ?, 
                                 serial_carroceria = ?
                                 WHERE id_chuto = ?";
             $stm = $this->pdo->prepare($sql);
-            $stm->execute(array(                        
+            $stm->execute(array(
+                        $matricula_chuto,
                         $serial_motor,
                         $serial_carroceria,
                         $id

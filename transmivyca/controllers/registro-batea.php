@@ -7,7 +7,7 @@ $crear = new Batea();
 $matricula = htmlspecialchars($_POST['matricula']);
 $serial = htmlspecialchars($_POST['serial']);
 $eje = htmlspecialchars($_POST['eje']);
-$fecha_registro = date("d-m-Y");
+$fecha_registro = date('Y-m-d');
 
 // Validacion de variables
 if (($matricula == "") || ($serial == "") || ($eje == "")) {    
@@ -15,6 +15,20 @@ if (($matricula == "") || ($serial == "") || ($eje == "")) {
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
         <div class='alert-body text-center'>Batea no puede ser registrada</div>
+    </div>";
+    
+} elseif (strlen($matricula) < 7) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Matrícula inválida</div>
+    </div>";
+    
+} elseif (strlen($serial) < 10) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Serial inválido</div>
     </div>";
 
 // Ejecuta el metodo registrar

@@ -2,7 +2,7 @@
         <main></main>
         <footer class="navbar navbar-inverse">
             <div class="container text-center">
-                <p>Desarrollado por Alodor</p>
+                <p>Desarrollado por David Jose Salazar</p>
             </div>
         </footer>
         <!-- /Footer -->

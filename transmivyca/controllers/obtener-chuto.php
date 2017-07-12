@@ -11,6 +11,7 @@ if (isset($id)) {
     // Sirve para almacenar los datos recogidos
     $response = [
         'id_chuto' => $data['id_chuto'],
+        'matricula_chuto' => $data['matricula_chuto'],
         'serial_motor' => $data['serial_motor'],
         'serial_carroceria' => $data['serial_carroceria'],
     ];

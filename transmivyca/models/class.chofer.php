@@ -52,7 +52,31 @@ class Chofer {
         
         try {
             
-            $sql = "SELECT id_chofer, nombre, apellido FROM chofer";            
+            $sql = "SELECT id_chofer, nombre, apellido, cedula FROM chofer WHERE id_chofer NOT IN (SELECT id_chofer FROM asignar_chuto)";            
+            $stm = $this->pdo->prepare($sql);
+            $stm->execute();
+            $data = $stm->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+                        
+        } catch(PDOException $e) {
+            die('ERROR: ' . $e->getMessage());
+        }   
+        
+    }
+    
+    public function ListarChoferViaje() {
+        
+        try {
+                        
+            $sql = "SELECT a.id_chofer, a.id_chuto, c.nombre, c.apellido, c.cedula 
+                    FROM asignar_chuto a 
+                    INNER JOIN chofer c 
+                    ON a.id_chofer = c.id_chofer 
+                    INNER JOIN chuto ch 
+                    ON a.id_chuto = ch.id_chuto 
+                    WHERE a.id_chuto 
+                    NOT IN (SELECT id_chuto FROM mantenimiento_chuto WHERE status = 'INACTIVO') 
+                    ORDER BY id_chofer";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);

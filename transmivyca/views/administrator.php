@@ -29,7 +29,10 @@ $totalDestino = new Destino();
         <!-- /Encabezado -->
         
         <!-- Modulos -->
-        <div class="container">            
+        <div class="container">
+            <?php 
+            if ($_SESSION['privilegio'] == "administrador") { ?>
+            
             <div id="clientes" class="col-md-2 col-md-offset-1 panel panel-default">
                 <a href="clientes.php">
                     <div class="panel-body">
@@ -38,7 +41,7 @@ $totalDestino = new Destino();
                         <span class="glyphicon glyphicon-briefcase pull-right"></span>
                     </div>
                 </a>
-            </div>
+            </div>            
             <!-- ******************** -->
             <div id="choferes" class="col-md-2 panel panel-default">
                 <a href="chofer.php">
@@ -79,6 +82,41 @@ $totalDestino = new Destino();
                     </div>
                 </a>
             </div>
+            
+            <?php
+            } else { ?>
+            
+            <div id="choferes" class="col-md-2 col-md-offset-3 panel panel-default">
+                <a href="chofer.php">
+                   <div class="panel-body">
+                        <h2><?php echo $totalChofer->totalChofer(); ?></h2>
+                        <h4>Choferes</h4>
+                        <span class="glyphicon glyphicon-user pull-right"></span>
+                    </div>
+                </a>
+            </div>
+            <!-- ******************** -->
+            <div id="chutos" class="col-md-2 panel panel-default">
+                <a href="chutos.php">
+                    <div class="panel-body">
+                        <h2><?php echo $totalChuto->totalChuto(); ?></h2>
+                        <h4>Chutos</h4>
+                        <span class="glyphicon glyphicon-star pull-right"></span>
+                    </div>
+                </a>
+            </div>
+            <!-- ******************** -->
+            <div id="bateas" class="col-md-2 panel panel-default">
+                <a href="bateas.php">    
+                    <div class="panel-body">
+                        <h2><?php echo $totalBatea->totalBatea(); ?></h2>
+                        <h4>Bateas</h4>
+                        <span class="glyphicon glyphicon-asterisk pull-right"></span>
+                    </div>
+                </a>
+            </div>
+            
+            <?php } ?>
         </div>
         <!-- /Modulos -->
         

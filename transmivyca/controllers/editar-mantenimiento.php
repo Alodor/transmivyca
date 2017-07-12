@@ -1,29 +1,28 @@
 <?php
-require_once '../models/class.batea.php';
+require_once '../models/class.mantenimiento.php';
 
-$editar = new Batea();
+$editar = new Mantenimiento();
 
 // Saneamiento de variables
-$id = htmlspecialchars($_POST['id_batea']);
-$matricula = htmlspecialchars($_POST['matricula']);
-$serial = htmlspecialchars($_POST['serial']);
-$eje = htmlspecialchars($_POST['eje']);
-
+$id = htmlspecialchars($_POST['id_mantenimiento']);
+$fecha_egreso = date('Y-m-d');
+$status = htmlspecialchars($_POST['status']);
 
 // Validacion de variables
-if (($id == "") || ($matricula == "") || ($serial == "")) {    
+if (($id == "") || ($status == "seleccione")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
         <div class='alert-body text-center'>No se puede actualizar registro</div>
-    </div>";
+    </div>";   
+
 
 // Ejecuta el metodo actualizar
-} elseif ($editar->Actualizar($matricula, $serial, $eje, $id)) {
+} elseif ($editar->Actualizar($fecha_egreso, $status, $id)) {
     echo "
     <script>
         swal({
-        title: 'Actualizar Batea',
+        title: 'Actualizar Mantenimiento',
         text: 'Editado satisfactoriamente',
         type: 'success',
         showCancelButton: false,
@@ -32,7 +31,7 @@ if (($id == "") || ($matricula == "") || ($serial == "")) {
         },
         
         function() {
-            location.href = '/transmivyca/views/bateas.php';
+            location.href = '/transmivyca/views/mantenimiento-chuto.php';
         });
     </script>";
     

@@ -101,7 +101,7 @@ $listar = new AsignarChuto();
                                         <?php
                                         $data = $chofer->ListarChofer();
                                         foreach ($data as $valor) { ?>
-                                            <option value="<?php echo $valor['id_chofer']; ?>"><?php echo $valor['nombre'] ." ". $valor['apellido']; ?></option>
+                                            <option value="<?php echo $valor['id_chofer']; ?>"><?php echo $valor['nombre'] ." ". $valor['apellido'] ." ". $valor['cedula']; ?></option>
                                         <?php                        
                                         }                        
                                         ?>  

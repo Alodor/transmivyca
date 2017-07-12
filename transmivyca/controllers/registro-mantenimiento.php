@@ -8,7 +8,8 @@ $id_chuto = htmlspecialchars($_POST['chuto']);
 $kilometraje = htmlspecialchars($_POST['kilometraje']);
 $falla = htmlspecialchars($_POST['falla']);
 $tipo_mantenimiento = htmlspecialchars($_POST['tipo_mantenimiento']);
-$fecha_ingreso = date("d-m-Y");
+$fecha_ingreso = date("Y-m-d");
+$status = 'INACTIVO';
 
 // Validacion de variables
 if (($id_chuto == "seleccione") || ($kilometraje == "")) {    
@@ -19,7 +20,7 @@ if (($id_chuto == "seleccione") || ($kilometraje == "")) {
     </div>";
 
 // Ejecuta el metodo registrar
-} elseif ($crear->Crear($id_chuto, $kilometraje, $falla, $tipo_mantenimiento, $fecha_ingreso)) {
+} elseif ($crear->Crear($id_chuto, $kilometraje, $falla, $tipo_mantenimiento, $fecha_ingreso, $status)) {
     echo "
     <script>
         swal({
@@ -41,6 +42,6 @@ if (($id_chuto == "seleccione") || ($kilometraje == "")) {
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Ya se encuentra registrado un mantenimiento</div>
+        <div class='alert-body text-center'>Este chuto ya se encuentra en mantenimiento</div>
     </div>";
 }

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Servidor: localhost
--- Tiempo de generación: 04-06-2017 a las 20:13:14
+-- Tiempo de generación: 21-06-2017 a las 18:34:11
 -- Versión del servidor: 5.7.18-0ubuntu0.16.04.1
 -- Versión de PHP: 7.0.18-0ubuntu0.16.04.1
 
@@ -38,7 +38,9 @@ CREATE TABLE `asignar_chuto` (
 --
 
 INSERT INTO `asignar_chuto` (`id_asignar`, `id_chofer`, `id_chuto`, `id_batea`) VALUES
-(4, 2, 2, 2);
+(3, 4, 4, 3),
+(4, 5, 5, 4),
+(5, 6, 6, 5);
 
 -- --------------------------------------------------------
 
@@ -52,16 +54,18 @@ CREATE TABLE `asignar_viaje` (
   `id_chofer` int(11) NOT NULL,
   `id_destino` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
-  `fecha` varchar(10) NOT NULL
+  `fecha` varchar(10) NOT NULL,
+  `salida` varchar(20) NOT NULL,
+  `llegada` varchar(20) DEFAULT NULL,
+  `status` varchar(25) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `asignar_viaje`
 --
 
-INSERT INTO `asignar_viaje` (`id_viaje`, `numero_guia`, `id_chofer`, `id_destino`, `id_cliente`, `fecha`) VALUES
-(4, 123456, 3, 1, 1, '01-06-2017'),
-(5, 1234567, 1, 1, 1, '01-06-2017');
+INSERT INTO `asignar_viaje` (`id_viaje`, `numero_guia`, `id_chofer`, `id_destino`, `id_cliente`, `fecha`, `salida`, `llegada`, `status`) VALUES
+(1, 1, 5, 2, 2, '2017-06-20', '07:35:25 pm', NULL, 'EN PROGRESO');
 
 -- --------------------------------------------------------
 
@@ -82,7 +86,9 @@ CREATE TABLE `batea` (
 --
 
 INSERT INTO `batea` (`id_batea`, `matricula_batea`, `serial`, `eje`, `fecha_registro`) VALUES
-(2, 'TYU-789', 'SREAZTDRSTR5487', '4', '31-05-2017');
+(3, 'TYY-885', 'RESDA65698', '4', '2017-06-19'),
+(4, 'MNO-054', 'CXZSF20369', '4', '2017-06-19'),
+(5, 'GHI-564', 'FGDHY25988', '2', '2017-06-19');
 
 -- --------------------------------------------------------
 
@@ -107,9 +113,10 @@ CREATE TABLE `chofer` (
 --
 
 INSERT INTO `chofer` (`id_chofer`, `cedula`, `nombre`, `apellido`, `direccion`, `telefono`, `fecha_vencimiento_licencia`, `fecha_vencimiento_certificado_medico`, `fecha_ingreso`) VALUES
-(1, '19316181', 'JOSÃ‰ ALEJANDRO', 'MÃ‰NDEZ SÃNCHEZ', 'BARCELONA', '04128352721', '2017-05-31', '2017-05-31', '29-05-2017'),
-(2, '8215334', 'WILFREDO', 'MÃ‰NDEZ', 'BARCELONA', '12345678999', '2017-06-02', '2017-06-03', '31-05-2017'),
-(3, '20156789', 'GUILLERMO', 'MENESES', 'PUERTO LA CRUZ', '123456', '2017-06-30', '2017-07-02', '01-06-2017');
+(4, '19316181', 'ALEJANDRO', 'MENDEZ', 'BARCELONA', '04128352721', '2018-10-25', '2018-10-24', '2017-06-19'),
+(5, '20080123', 'WILFREDO', 'MENDEZ', 'PUERTO LA CRUZ', '04261597894', '2018-09-25', '2018-10-24', '2017-06-19'),
+(6, '8215334', 'PEDRO', 'BRITO', 'BARCELONA', '04245692287', '2020-05-13', '2021-06-23', '2017-06-19'),
+(7, '15789456', 'YUBEL', 'ROJAS', 'BARCELONA', '04245698978', '2019-06-13', '2018-06-21', '2017-06-19');
 
 -- --------------------------------------------------------
 
@@ -123,6 +130,7 @@ CREATE TABLE `chuto` (
   `marca` varchar(45) NOT NULL,
   `modelo` varchar(45) NOT NULL,
   `color` varchar(45) NOT NULL,
+  `eje` int(11) NOT NULL,
   `annio` varchar(4) NOT NULL,
   `serial_motor` varchar(45) NOT NULL,
   `serial_carroceria` varchar(45) NOT NULL
@@ -132,9 +140,11 @@ CREATE TABLE `chuto` (
 -- Volcado de datos para la tabla `chuto`
 --
 
-INSERT INTO `chuto` (`id_chuto`, `matricula_chuto`, `marca`, `modelo`, `color`, `annio`, `serial_motor`, `serial_carroceria`) VALUES
-(1, 'ABC-123', 'INTERNATIONAL', 'TRANSTAR', 'NEGRO', '2015', 'ABC123', 'ABC123'),
-(2, 'GHT-789', 'MERCEDES-BENZ', 'ZETROS', 'PLATEADO', '2000', 'ASDFG123456', 'LOIUY7894568');
+INSERT INTO `chuto` (`id_chuto`, `matricula_chuto`, `marca`, `modelo`, `color`, `eje`, `annio`, `serial_motor`, `serial_carroceria`) VALUES
+(4, 'MBO-456', 'MACK', 'GRANITE', 'ROJO', 3, '2002', 'ASDFR48989', 'GHTYR49856'),
+(5, 'AIO-002', 'MERCEDES-BENZ', 'ZETROS', 'VERDE', 4, '2006', 'QWERT12345', 'ZXCVB78945'),
+(6, 'KML-666', 'INTERNATIONAL', 'DURASTAR', 'NEGRO', 5, '2016', 'TRDSC46207', 'AXCEF45781'),
+(7, 'TRO-789', 'IVECO', 'STRALIS', 'BLANCO', 3, '2010', 'RWEWWE5454', 'DGFT654454');
 
 -- --------------------------------------------------------
 
@@ -156,8 +166,9 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`id_cliente`, `rif`, `razon_social`, `direccion`, `telefono`, `responsable`) VALUES
-(1, 'J-656623652', 'SERVICE COMPUTEK', 'BARCELONA', '04128352721', 'JOSE MENDEZ'),
-(3, 'J-489865265', 'POLAR', 'BOLIVAR', '123456', 'MERIDA SANCHEZ');
+(2, 'J-404123456', 'POLAR', 'CUMANA', '02812710887', 'ERNESTO UZCATEGUI'),
+(3, 'G-789456522', 'PDVSA', 'GUARAGUAO', '02812684591', 'HUMBERTO PETRICA'),
+(4, 'J-565989463', 'MATERIALES CARABOBO', 'VALENCIA', '04245979656', 'SARAY MAZA');
 
 -- --------------------------------------------------------
 
@@ -182,7 +193,9 @@ CREATE TABLE `destino` (
 --
 
 INSERT INTO `destino` (`id_destino`, `origen`, `destino`, `distancia`, `peaje`, `comida`, `combustible`, `otros`, `total`) VALUES
-(1, 'BARCELONA', 'CARACAS', '300', 200, 300, 500, 500, 1500);
+(2, 'BARCELONA', 'CARACAS', '300', 500, 2000, 1000, 3000, 6500),
+(3, 'BARCELONA', 'VALENCIA', '500', 3000, 5000, 3000, 5000, 16000),
+(4, 'BARCELONA', 'CUMANA', '160', 1000, 2000, 3000, 3000, 9000);
 
 -- --------------------------------------------------------
 
@@ -196,16 +209,18 @@ CREATE TABLE `mantenimiento_chuto` (
   `kilometraje` varchar(45) NOT NULL,
   `falla` varchar(200) NOT NULL,
   `tipo_mantenimiento` varchar(200) NOT NULL,
-  `fecha_ingreso` varchar(10) NOT NULL
+  `fecha_ingreso` date NOT NULL,
+  `fecha_egreso` date DEFAULT NULL,
+  `status` varchar(8) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Volcado de datos para la tabla `mantenimiento_chuto`
 --
 
-INSERT INTO `mantenimiento_chuto` (`id_mantenimiento`, `id_chuto`, `kilometraje`, `falla`, `tipo_mantenimiento`, `fecha_ingreso`) VALUES
-(2, 1, '10000', 'MOTOR', 'PREDICTIVO', '03-06-2017'),
-(3, 2, '100000', 'TRANSMISION', 'CORRECTIVO', '03-06-2017');
+INSERT INTO `mantenimiento_chuto` (`id_mantenimiento`, `id_chuto`, `kilometraje`, `falla`, `tipo_mantenimiento`, `fecha_ingreso`, `fecha_egreso`, `status`) VALUES
+(6, 4, '10000', 'TRANSMISION', 'PREVENTIVO', '2017-06-19', '2017-06-20', 'ACTIVO'),
+(8, 4, '4545', 'CIGUEÃ‘AL', 'PREDICTIVO', '2017-06-20', '2017-06-20', 'ACTIVO');
 
 -- --------------------------------------------------------
 
@@ -306,37 +321,37 @@ ALTER TABLE `asignar_chuto`
 -- AUTO_INCREMENT de la tabla `asignar_viaje`
 --
 ALTER TABLE `asignar_viaje`
-  MODIFY `id_viaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_viaje` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT de la tabla `batea`
 --
 ALTER TABLE `batea`
-  MODIFY `id_batea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_batea` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT de la tabla `chofer`
 --
 ALTER TABLE `chofer`
-  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_chofer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `chuto`
 --
 ALTER TABLE `chuto`
-  MODIFY `id_chuto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_chuto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT de la tabla `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `destino`
 --
 ALTER TABLE `destino`
-  MODIFY `id_destino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_destino` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT de la tabla `mantenimiento_chuto`
 --
 ALTER TABLE `mantenimiento_chuto`
-  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT de la tabla `usuario_sistema`
 --

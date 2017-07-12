@@ -4,14 +4,15 @@ require_once '../models/class.asignar-viaje.php';
 $crear = new AsignarViaje();
 
 // Saneamiento de variables
-$numero_guia = htmlspecialchars($_POST['numero_guia']);
 $id_chofer = htmlspecialchars($_POST['chofer']);
 $id_destino = htmlspecialchars($_POST['destino']);
 $id_cliente = htmlspecialchars($_POST['cliente']);
-$fecha = date("d-m-Y");
+$fecha = date('Y-m-d');
+$salida = date('h:i:s a');
+$status = 'EN PROGRESO';
 
 // Validacion de variables
-if (($id_chofer == "seleccione") || ($id_destino == "seleccione") || ($id_cliente == "seleccione") || ($numero_guia == "")) {    
+if (($id_chofer == "seleccione") || ($id_destino == "seleccione") || ($id_cliente == "seleccione")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
@@ -19,7 +20,7 @@ if (($id_chofer == "seleccione") || ($id_destino == "seleccione") || ($id_client
     </div>";
 
 // Ejecuta el metodo registrar
-} elseif ($crear->Crear($numero_guia, $id_chofer, $id_destino, $id_cliente, $fecha)) {
+} elseif ($crear->Crear($id_chofer, $id_destino, $id_cliente, $fecha, $salida, $status)) {
     echo "
     <script>
         swal({
@@ -41,6 +42,6 @@ if (($id_chofer == "seleccione") || ($id_destino == "seleccione") || ($id_client
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
-        <div class='alert-body text-center'>Ya se encuentra registrada una asignación</div>
+        <div class='alert-body text-center'>No se puede asignar viaje a este chofer</div>
     </div>";
 }

@@ -20,6 +20,7 @@ if (isset($valor)) {
                 <th>Falla</th>
                 <th>Tipo Mantenimiento</th>
                 <th>Fecha Ingreso</th>
+                <th>Fecha Egreso</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -32,20 +33,32 @@ if (isset($valor)) {
             <tr>
                 <td>" .$row['id_mantenimiento']. "</td>
                 <td>" .$row['matricula_chuto']. "</td>
-                <td>" .$row['kilometraje']. "</td>
+                <td>" .$row['kilometraje']. " Km</td>
                 <td>" .$row['falla']. "</td>
                 <td>" .$row['tipo_mantenimiento']. "</td>
                 <td>" .$row['fecha_ingreso']. "</td>
+                <td>" .$row['fecha_egreso']. "</td>
                 <td>";
                                        
         if ($_SESSION['privilegio'] == "administrador") {
             
-        $salida .= "                                
+        $salida .= "  
+            <a class='btn btn-primary' data-toggle='tooltip' data-placement='bottom' title='Editar' onclick='obtenerMantenimiento(" .$row['id_mantenimiento']. ")'>
+                <span class='glyphicon glyphicon-edit'></span>
+            </a>
+        
             <a class='btn btn-danger' data-toggle='tooltip' data-placement='bottom' title='Eliminar' onclick='eliminarMantenimiento(" .$row['id_mantenimiento']. ")'>
                 <span class='glyphicon glyphicon-trash'></span>
             </a>";
             
-        } 
+        } else {
+            
+        $salida .= "
+            <a class='btn btn-primary' data-toggle='tooltip' data-placement='bottom' title='Editar' onclick='obtenerMantenimiento(" .$row['id_mantenimiento']. ")'>
+                <span class='glyphicon glyphicon-edit'></span>
+            </a>";
+            
+        }
             
         $salida .= "
                 </td>

@@ -52,7 +52,7 @@ class Batea {
         
         try {
             
-            $sql = "SELECT id_batea, matricula_batea FROM batea";            
+            $sql = "SELECT id_batea, matricula_batea FROM batea WHERE id_batea NOT IN (SELECT id_batea FROM asignar_chuto)";            
             $stm = $this->pdo->prepare($sql);
             $stm->execute();
             $data = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -137,18 +137,20 @@ class Batea {
     }
     
     // Realiza una actualizacion del registro seleccionado
-    public function Actualizar($matricula, $serial, $id) {
+    public function Actualizar($matricula, $serial, $eje, $id) {
         
         try {
             
             $sql = "UPDATE batea SET
                                 matricula_batea = ?, 
-                                serial = ?
+                                serial = ?,
+                                eje = ?
                                 WHERE id_batea = ?";
             $stm = $this->pdo->prepare($sql);
             $stm->execute(array(                        
                         $matricula,
                         $serial,
+                        $eje,
                         $id
             ));
             return true;

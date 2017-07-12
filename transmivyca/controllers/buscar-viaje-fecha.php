@@ -3,12 +3,21 @@ session_start();
 require_once '../models/class.asignar-viaje.php';
 
 $listar = new AsignarViaje();
-$valor = $_POST['consulta'];
+$desde = $_POST['desde'];
+$hasta = $_POST['hasta'];
 
 $salida = "";
 
-if (isset($valor)) {
-    $data = $listar->Buscar($valor);
+if (isset($desde) == false) {
+    $desde = $hasta;
+}
+
+if (isset($hasta) == false) {
+    $hasta = $desde;
+}
+    
+    
+    $data = $listar->BuscarFecha($desde, $hasta);
     
     $salida .= "
     <table class='table table-striped'>
@@ -17,7 +26,6 @@ if (isset($valor)) {
                 <th>Id</th>
                 <th>Número Guía</th>
                 <th>Chofer</th>
-                <th>Cédula</th>
                 <th>Origen</th>
                 <th>Destino</th>
                 <th>Cliente</th>
@@ -38,7 +46,6 @@ if (isset($valor)) {
                 <td>" .$row['id_viaje']. "</td>
                 <td>" .$row['numero_guia']. "</td>
                 <td>" .$row['nombre']. " " .$row['apellido']. "</td>
-                <td>" .$row['cedula']. "</td>
                 <td>" .$row['origen']. "</td>
                 <td>" .$row['destino']. "</td>
                 <td>" .$row['razon_social']. "</td>
@@ -76,5 +83,3 @@ if (isset($valor)) {
         </table>";
     
     echo $salida;
-    
-}

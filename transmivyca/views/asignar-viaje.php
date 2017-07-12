@@ -28,6 +28,9 @@ $listar = new AsignarViaje();
         <div class="container">
             <div class="text-right">
                 <!-- Buscador -->
+                <input id="desde" class="buscador" type="date" data-toggle="tooltip" data-placement="bottom" title="Desde">
+                <input id="hasta" class="buscador" type="date" data-toggle="tooltip" data-placement="bottom" title="Hasta" max="<?php $hoy = date('Y-m-d'); echo $hoy; ?>">
+                
                 <input id="buscadorViaje" class="buscador" type="text" placeholder="Buscador" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off">
                 <!-- /Buscador -->
                 
@@ -50,10 +53,14 @@ $listar = new AsignarViaje();
                             <th>Id</th>
                             <th>Número Guía</th>
                             <th>Chofer</th>
+                            <th>Cédula</th>
                             <th>Origen</th>
                             <th>Destino</th>
                             <th>Cliente</th>
                             <th>Fecha</th>
+                            <th>Salida</th>
+                            <th>Llegada</th>
+                            <th>Status</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -65,16 +72,31 @@ $listar = new AsignarViaje();
                             <td><?php echo $campo['id_viaje']; ?></td>
                             <td><?php echo $campo['numero_guia']; ?></td>
                             <td><?php echo $campo['nombre'] ." ". $campo['apellido']; ?></td>
+                            <td><?php echo $campo['cedula']; ?></td>
                             <td><?php echo $campo['origen']; ?></td>
                             <td><?php echo $campo['destino']; ?></td>
                             <td><?php echo $campo['razon_social']; ?></td>
                             <td><?php echo $campo['fecha']; ?></td>
+                            <td><?php echo $campo['salida']; ?></td>
+                            <td><?php echo $campo['llegada']; ?></td>
+                            <td><?php echo $campo['status']; ?></td>
                             <td>
                                 <?php 
                                 if ($_SESSION['privilegio'] == "administrador") { ?>
                                 
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerViaje(<?php echo $campo['id_viaje']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarViaje(<?php echo $campo['id_viaje']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerViaje(<?php echo $campo['id_viaje']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                                 
                                 <?php } ?>
@@ -82,7 +104,7 @@ $listar = new AsignarViaje();
                         </tr>
                         <?php                        
                         }                        
-                        ?>                            
+                        ?>                              
                     </tbody>
                 </table>
             </div>
@@ -101,18 +123,13 @@ $listar = new AsignarViaje();
                             <!-- Formulario -->
                             <form id="nuevo-viaje">
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                                    <input type="text" class="form-control" name="numero_guia" placeholder="Número Guía" maxlength="10" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                     <select class="form-control" name="chofer" data-toggle="tooltip" data-placement="right" title="Chofer">
                                         <option value="seleccione">Seleccione</option>
                                         <?php
-                                        $data = $chofer->ListarChofer();
+                                        $data = $chofer->ListarChoferViaje();
                                         foreach ($data as $valor) { ?>
-                                            <option value="<?php echo $valor['id_chofer']; ?>"><?php echo $valor['nombre'] ." ". $valor['apellido']; ?></option>
+                                            <option value="<?php echo $valor['id_chofer']; ?>"><?php echo $valor['nombre'] ." ". $valor['apellido'] ." ". $valor['cedula']; ?></option>
                                         <?php                        
                                         }                        
                                         ?>  
@@ -177,51 +194,15 @@ $listar = new AsignarViaje();
                             <!-- Formulario -->
                             <form id="editar-viaje">
                                 <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-tag"></i></span>
-                                    <input type="text" class="form-control" name="numero_guia" placeholder="Número Guía" maxlength="10" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                    <select class="form-control" name="chofer" data-toggle="tooltip" data-placement="right" title="Chofer">
+                                    <input id="id_viaje" name="id_viaje" type="hidden">
+                                    
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
+                                    <select class="form-control" name="status" data-toggle="tooltip" data-placement="right" title="Status">
                                         <option value="seleccione">Seleccione</option>
-                                        <?php
-                                        $data = $chofer->ListarChofer();
-                                        foreach ($data as $valor) { ?>
-                                            <option value="<?php echo $valor['id_chofer']; ?>"><?php echo $valor['nombre'] ." ". $valor['apellido']; ?></option>
-                                        <?php                        
-                                        }                        
-                                        ?>  
+                                        <option value="EN PROGRESO">En progreso</option>
+                                        <option value="ENTREGADO">Entregado</option>
                                     </select>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
-                                    <select class="form-control" name="destino" data-toggle="tooltip" data-placement="right" title="Destino">
-                                        <option value="seleccione">Seleccione</option>
-                                        <?php
-                                        $data = $destino->ListarDestino();
-                                        foreach ($data as $valor) { ?>
-                                            <option value="<?php echo $valor['id_destino']; ?>"><?php echo $valor['destino']; ?></option>
-                                        <?php                        
-                                        }                        
-                                        ?>  
-                                    </select>
-                                </div>
-                                <!-- ****************************** -->
-                                <div class="form-group input-group">
-                                    <span class="input-group-addon"><i class="gglyphicon glyphicon-briefcase"></i></span>
-                                    <select class="form-control" name="cliente" data-toggle="tooltip" data-placement="right" title="Cliente">
-                                        <option value="seleccione">Seleccione</option>
-                                        <?php
-                                        $data = $cliente->ListarCliente();
-                                        foreach ($data as $valor) { ?>
-                                            <option value="<?php echo $valor['id_cliente']; ?>"><?php echo $valor['razon_social']; ?></option>
-                                        <?php                        
-                                        }                        
-                                        ?>  
-                                    </select>
-                                </div>
+                                </div>                                
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
                             </form>
@@ -229,7 +210,7 @@ $listar = new AsignarViaje();
                             
                             <!-- Respuesta -->
                             <div id="respuesta" style="display: none"></div>
-                            <!-- /Respuesta -->
+                            <!-- /Respuesta --> 
                         </div>
                         <div class="modal-footer">                            
                             <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cerrar</button>

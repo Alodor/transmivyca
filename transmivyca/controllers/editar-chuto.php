@@ -5,6 +5,7 @@ $editar = new Chuto();
 
 // Saneamiento de variables
 $id = htmlspecialchars($_POST['id_chuto']);
+$matricula_chuto = htmlspecialchars($_POST['matricula_chuto']);
 $serial_motor = htmlspecialchars($_POST['serial_motor']);
 $serial_carroceria = htmlspecialchars($_POST['serial_carroceria']);
 
@@ -18,7 +19,7 @@ if (($id == "") || ($serial_motor == "") || ($serial_carroceria == "")) {
     </div>";
 
 // Ejecuta el metodo actualizar
-} elseif ($editar->Actualizar($serial_motor, $serial_carroceria, $id)) {
+} elseif ($editar->Actualizar($matricula_chuto, $serial_motor, $serial_carroceria, $id)) {
     echo "
     <script>
         swal({

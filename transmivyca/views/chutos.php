@@ -16,7 +16,7 @@ $listar = new Chuto();
         <!-- /Navbar -->
         
         <!-- Encabezado -->
-        <h1 class="titulo text-center">Chutos</h1>
+        <h1 class="titulo text-center">Gestionar Chutos</h1>
         <!-- /Encabezado -->
         
         <div class="container">
@@ -46,6 +46,7 @@ $listar = new Chuto();
                             <th>Marca</th>
                             <th>Modelo</th>
                             <th>Color</th>
+                            <th>Eje</th>                            
                             <th>Año</th>
                             <th>Serial Motor</th>
                             <th>Serial Carrocería</th>
@@ -62,6 +63,7 @@ $listar = new Chuto();
                             <td><?php echo $valor['marca']; ?></td>
                             <td><?php echo $valor['modelo']; ?></td>
                             <td><?php echo $valor['color']; ?></td>
+                            <td><?php echo $valor['eje']; ?></td>
                             <td><?php echo $valor['annio']; ?></td>
                             <td><?php echo $valor['serial_motor']; ?></td>
                             <td><?php echo $valor['serial_carroceria']; ?></td>
@@ -109,7 +111,7 @@ $listar = new Chuto();
                             <form id="nuevo-chuto">
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-asterisk"></i></span>
-                                    <input type="text" class="form-control" name="matricula" placeholder="Matrícula" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input type="text" class="form-control" name="matricula" placeholder="Matrícula" maxlength="7" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
@@ -161,18 +163,29 @@ $listar = new Chuto();
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-th-list"></i></span>
+                                    <select class="form-control" name="eje" data-toggle="tooltip" data-placement="right" title="Eje">
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                    </select>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                     <input type="text" class="form-control" name="annio" placeholder="Año" maxlength="4" onkeypress="return onlyNumber(event)" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input type="text" class="form-control" name="serial_motor" placeholder="Serial Motor" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input type="text" class="form-control" name="serial_motor" placeholder="Serial Motor" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input type="text" class="form-control" name="serial_carroceria" placeholder="Serial Carrocería" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input type="text" class="form-control" name="serial_carroceria" placeholder="Serial Carrocería" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
@@ -208,12 +221,17 @@ $listar = new Chuto();
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input id="serial_motor" type="text" class="form-control" name="serial_motor" placeholder="Serial Motor" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input id="matricula_chuto" type="text" class="form-control" name="matricula_chuto" placeholder="Matricula Chuto" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" ata-toggle="tooltip" data-placement="right" title="Matricula" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <div class="form-group input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
-                                    <input id="serial_carroceria" type="text" class="form-control" name="serial_carroceria" placeholder="Serial Carrocería" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" required>
+                                    <input id="serial_motor" type="text" class="form-control" name="serial_motor" placeholder="Serial Motor" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" ata-toggle="tooltip" data-placement="right" title="Serial Motor" required>
+                                </div>
+                                <!-- ****************************** -->
+                                <div class="form-group input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-barcode"></i></span>
+                                    <input id="serial_carroceria" type="text" class="form-control" name="serial_carroceria" placeholder="Serial Carroceria" maxlength="10" onKeyUp="this.value=this.value.toUpperCase()" onpaste="return false" autocomplete="off" ata-toggle="tooltip" data-placement="right" title="Serial Carroceria" required>
                                 </div>
                                 <!-- ****************************** -->
                                 <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>

@@ -11,15 +11,29 @@ $direccion = htmlspecialchars($_POST['direccion']);
 $telefono = htmlspecialchars($_POST['telefono']);
 $fv_licencia = $_POST['fv_licencia'];
 $fv_certificado = $_POST['fv_certificado'];
-$fecha_ingreso = date("d-m-Y");
+$fecha_ingreso = date('Y-m-d');
 
 
 // Validacion de variables
-if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "") || ($estatus == "")) {    
+if (($cedula == "") || ($nombre == "") || ($apellido == "") || ($direccion == "") || ($telefono == "")) {    
     echo "
     <div class='alert alert-danger alert-dismissable'>
         <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
         <div class='alert-body text-center'>Chofer no puede ser registrado</div>
+    </div>";
+    
+} elseif (strlen($telefono) < 11) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Número de teléfono inválido</div>
+    </div>";
+    
+} elseif (strlen($cedula) < 7) {
+    echo "
+    <div class='alert alert-danger alert-dismissable'>
+        <a class='close' data-dismiss='alert' aria-label='close'>&times;</a>
+        <div class='alert-body text-center'>Número de cédula inválido</div>
     </div>";
 
 // Ejecuta el metodo registrar

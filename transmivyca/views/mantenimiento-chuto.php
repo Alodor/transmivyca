@@ -49,6 +49,8 @@ $chuto = new Chuto();
                             <th>Falla</th>
                             <th>Tipo Mantenimiento</th>
                             <th>Fecha Ingreso</th>
+                            <th>Fecha Egreso</th>
+                            <th>Status</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -59,16 +61,29 @@ $chuto = new Chuto();
                         <tr>
                             <td><?php echo $valor['id_mantenimiento']; ?></td>
                             <td><?php echo $valor['matricula_chuto']; ?></td>
-                            <td><?php echo $valor['kilometraje']; ?></td>
+                            <td><?php echo $valor['kilometraje']; ?> Km</td>
                             <td><?php echo $valor['falla']; ?></td>
                             <td><?php echo $valor['tipo_mantenimiento']; ?></td>
                             <td><?php echo $valor['fecha_ingreso']; ?></td>
+                            <td><?php echo $valor['fecha_egreso']; ?></td>
+                            <td><?php echo $valor['status']; ?></td>
                             <td>
                                 <?php 
                                 if ($_SESSION['privilegio'] == "administrador") { ?>
                                 
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerMantenimiento(<?php echo $valor['id_mantenimiento']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                                
                                 <a class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="Eliminar" onclick="eliminarMantenimiento(<?php echo $valor['id_mantenimiento']; ?>)">
                                     <span class="glyphicon glyphicon-trash"></span>
+                                </a>
+                                
+                                <?php
+                                } else { ?>
+                                
+                                <a class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="Editar" onclick="obtenerMantenimiento(<?php echo $valor['id_mantenimiento']; ?>)">
+                                    <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                                 
                                 <?php } ?>
@@ -76,7 +91,7 @@ $chuto = new Chuto();
                         </tr>
                         <?php                        
                         }                        
-                        ?>                            
+                        ?>                                
                     </tbody>
                 </table>
             </div>
@@ -99,7 +114,7 @@ $chuto = new Chuto();
                                     <select class="form-control" name="chuto" data-toggle="tooltip" data-placement="right" title="Chuto">
                                         <option value="seleccione">Seleccione</option>
                                         <?php
-                                        $data = $chuto->ListarChuto();
+                                        $data = $chuto->ListarChutoMantenimiento();
                                         foreach ($data as $valor) { ?>
                                             <option value="<?php echo $valor['id_chuto']; ?>"><?php echo $valor['matricula_chuto']; ?></option>
                                         <?php                        
@@ -151,6 +166,45 @@ $chuto = new Chuto();
                 </div>
             </div>
             <!-- /Modal nuevo -->
+            
+            <!-- Modal editar -->
+            <div id="editarMantenimiento" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h3 class="modal-title">Editar Mantenimiento</h3>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Formulario -->
+                            <form id="editar-mantenimiento">
+                               <div class="form-group input-group">
+                                    <input id="id_mantenimiento" name="id_mantenimiento" type="hidden">
+                                    
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    <select class="form-control" name="status" data-toggle="tooltip" data-placement="right" title="status" required>
+                                        <option value="seleccione">Seleccione</option>
+                                        <option value="ACTIVO">Activo</option>
+                                    </select>
+                                </div>
+                                <!-- ****************************** -->
+                                <button type="submit" class="btn btn-success btn-lg center-block"><span class="glyphicon glyphicon-ok"></span> Aceptar</button>
+                            </form>
+                            <!-- /Formulario -->
+                            
+                            <!-- Respuesta -->
+                            <div id="respuesta" style="display: none"></div>
+                            <!-- /Respuesta --> 
+                        </div>
+                        <div class="modal-footer">                            
+                            <button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                    <!-- /Modal content-->
+                </div>
+            </div>
+            <!-- /Modal editar -->
         </div>
         
         <?php include '../assets/footer.php'; ?>
